@@ -5,8 +5,6 @@
 package ca.mcrobotics;
 
 import ca.mcrobotics.subsystems.*;
-import ca.mcrobotics.subsystems.Archive.Arm;
-import ca.mcrobotics.subsystems.Archive.Clamp;
 import ca.mcrobotics.subsystems.driveTrain.Swerve;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -22,44 +20,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Arm arm = new Arm();
-  private final Clamp clamp = new Clamp();
-  private final Swerve fl = new Swerve(Constants.DRIVE.FRONT_LEFT_SPEED, 
-  Constants.DRIVE.FRONT_LEFT_ROTATION, 
-  Constants.DRIVE.FRONT_LEFT_ROTATION_ABSOLUTE_ENCODER_REVERSED, 
-  Constants.DRIVE.FRONT_LEFT_ROTATION_ABSOLUTE_ENCODER_REVERSED,
-  Constants.DRIVE.FRONT_LEFT_SPEED_ENODER_A,
-  Constants.DRIVE.FRONT_LEFT_SPEED_ENODER_B,
-  Constants.DRIVE.FRONT_LEFT_SPEED_ABSOLUTE_ENCODER_OFFSET_RAD,
-  Constants.DRIVE.FRONT_LEFT_SPEED_ABSOLUTE_ENCODER_REVERSED);
-  
-  private final Swerve fr = new Swerve(Constants.DRIVE.FRONT_RIGHT_SPEED, 
-  Constants.DRIVE.FRONT_RIGHT_ROTATION, 
-  Constants.DRIVE.FRONT_RIGHT_ROTATION_ABSOLUTE_ENCODER_REVERSED, 
-  Constants.DRIVE.FRONT_RIGHT_ROTATION_ABSOLUTE_ENCODER_REVERSED,
-  Constants.DRIVE.FRONT_RIGHT_SPEED_ENODER_A,
-  Constants.DRIVE.FRONT_RIGHT_SPEED_ENODER_B,
-  Constants.DRIVE.FRONT_RIGHT_SPEED_ABSOLUTE_ENCODER_OFFSET_RAD,
-  Constants.DRIVE.FRONT_RIGHT_SPEED_ABSOLUTE_ENCODER_REVERSED);
-  
-  private final Swerve bl = new Swerve(Constants.DRIVE.BACK_LEFT_SPEED, 
-  Constants.DRIVE.BACK_LEFT_ROTATION, 
-  Constants.DRIVE.BACK_LEFT_ROTATION_ABSOLUTE_ENCODER_REVERSED,
-  Constants.DRIVE.BACK_LEFT_ROTATION_ABSOLUTE_ENCODER_REVERSED,
-  Constants.DRIVE.BACK_LEFT_SPEED_ENODER_A,
-  Constants.DRIVE.BACK_LEFT_SPEED_ENODER_B,
-  Constants.DRIVE.BACK_LEFT_SPEED_ABSOLUTE_ENCODER_OFFSET_RAD,
-  Constants.DRIVE.BACK_LEFT_SPEED_ABSOLUTE_ENCODER_REVERSED);
-  
-  private final Swerve br = new Swerve(Constants.DRIVE.BACK_RIGHT_SPEED, 
-  Constants.DRIVE.BACK_RIGHT_ROTATION, 
-  Constants.DRIVE.BACK_RIGHT_ROTATION_ABSOLUTE_ENCODER_REVERSED,
-  Constants.DRIVE.BACK_RIGHT_ROTATION_ABSOLUTE_ENCODER_REVERSED,
-  Constants.DRIVE.BACK_RIGHT_SPEED_ENODER_A,
-  Constants.DRIVE.BACK_RIGHT_SPEED_ENODER_B,
-  Constants.DRIVE.BACK_RIGHT_SPEED_ABSOLUTE_ENCODER_OFFSET_RAD,
-  Constants.DRIVE.BACK_RIGHT_SPEED_ABSOLUTE_ENCODER_REVERSED);
-
   private final CommandXboxController mainXbox = new CommandXboxController(Constants.CONTROL.MAIN_XBOX);
 
   /**

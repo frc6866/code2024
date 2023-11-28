@@ -1,6 +1,6 @@
-package ca.mcrobotics.subsystems.Archive;
+/*spackage ca.mcrobotics.subsystems.Archive;
 
-import ca.mcrobotics.Constants.CLAMP;
+import ca.mcrobotics.Constants.Clamp;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,8 +13,8 @@ public class Clamp extends SubsystemBase {
   double lastDataSendTime;
 
   public Clamp() {
-    compressor = new Compressor(1, CLAMP.PCM_TYPE);
-    solenoid = new DoubleSolenoid(CLAMP.PCM_TYPE, CLAMP.SOLENOID_FORW, CLAMP.SOLENOID_REV);
+    compressor = new Compressor(1, Clamp.PCM_TYPE);
+    solenoid = new DoubleSolenoid(Clamp.PCM_TYPE, Clamp.SOLENOID_FORW, Clamp.SOLENOID_REV);
     solenoid.set(DoubleSolenoid.Value.kForward);
     startCompressor();
   }
@@ -39,3 +39,4 @@ public class Clamp extends SubsystemBase {
     solenoid.set(DoubleSolenoid.Value.kOff);
   }
 }
+*/
