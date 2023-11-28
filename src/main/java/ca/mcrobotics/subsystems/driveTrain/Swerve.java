@@ -1,89 +1,97 @@
 package ca.mcrobotics.subsystems.driveTrain;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import ca.mcrobotics.Constants;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import ca.mcrobotics.Constants.*;
 
 public class Swerve extends SubsystemBase {
+    public final ADIS16470_IMU imu = new ADIS16470_IMU();
+    private final SwerveModule frontLeft = new SwerveModule(
+        Drive.FRONT_LEFT_SPEED,
+        Drive.FRONT_LEFT_ROTATION,
+        Drive.FRONT_LEFT_SPEED_REVERSED,
+        Drive.FRONT_LEFT_ROTATION_ENODER_A,
+        Drive.FRONT_LEFT_SPEED_ABSOLUTE_ENCODER_OFFSET_RAD);
 
-    private final TalonSRX driveMotor;
-    private final TalonSRX turningMotor;
+    private final SwerveModule frontRight = new SwerveModule(
+        Drive.FRONT_RIGHT_SPEED,
+        Drive.FRONT_RIGHT_ROTATION,
+        Drive.FRONT_RIGHT_SPEED_REVERSED,
+        Drive.FRONT_RIGHT_ROTATION_ENODER_A,
+        Drive.FRONT_RIGHT_SPEED_ABSOLUTE_ENCODER_OFFSET_RAD);
 
-    private final Encoder driveEncoder;
-    private final Encoder turningEncoder;
+    private final SwerveModule backLeft = new SwerveModule(
+        Drive.BACK_LEFT_SPEED,
+        Drive.BACK_LEFT_ROTATION,
+        Drive.BACK_LEFT_SPEED_REVERSED,
+        Drive.BACK_LEFT_ROTATION_ENODER_A,
+        Drive.BACK_LEFT_SPEED_ABSOLUTE_ENCODER_OFFSET_RAD);
 
-    private final PIDController turningPidController;
+    private final SwerveModule backRight = new SwerveModule(
+        Drive.BACK_RIGHT_SPEED,
+        Drive.BACK_RIGHT_ROTATION,
+        Drive.BACK_RIGHT_SPEED_REVERSED,
+        Drive.BACK_RIGHT_ROTATION_ENODER_A,
+        Drive.BACK_RIGHT_SPEED_ABSOLUTE_ENCODER_OFFSET_RAD);
+    
+    //private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(Drive.kDriveKinematics, new Rotation2d(0));
 
-    private final boolean absoluteEncoderReversed;
-    private final double absoluteEncoderOffsetRad;
-
-    public Swerve(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
-        int absoluteEncoderIdA, int absoluteEncoderIdB, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
-
-        this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
-        this.absoluteEncoderReversed = absoluteEncoderReversed;
-        this.driveEncoder = new Encoder(0, 0);
-        this.turningEncoder = new Encoder(absoluteEncoderIdA, absoluteEncoderIdB);
-
-        driveMotor = new TalonSRX(driveMotorId);
-        turningMotor = new TalonSRX(turningMotorId);
-
-        driveMotor.setInverted(driveMotorReversed);
-        turningMotor.setInverted(turningMotorReversed);
-
-        turningPidController = new PIDController(Constants.DRIVE.kPTurning, 0, 0);
-        turningPidController.enableContinuousInput(-Math.PI, Math.PI);
-
-        resetEncoders();
+    public Swerve() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                zeroHeading();
+            } catch (Exception e) {
+            }
+        }).start();
     }
 
-    public double getTurningPosition() {
-        return turningEncoder.getRaw();
+    public void zeroHeading() {
+        imu.reset();
     }
 
-    public double getDriveVelocity() {
-        return driveEncoder.getRaw();
+    public double getHeading() {
+        return Math.IEEEremainder(imu.getAngle(), 360);
     }
 
-
-    public double getAbsoluteEncoderRad() {
-        double angle = turningEncoder.getRaw() / RobotController.getVoltage5V();
-        angle *= 2.0 * Math.PI;
-        angle -= absoluteEncoderOffsetRad;
-        return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
+    public Rotation2d getRotation2d() {
+        return Rotation2d.fromDegrees(getHeading());
+    }
+    /*
+    public Pose2d getPose() {
+        return odometer.getPoseMeters();
     }
 
-    public void resetEncoders() {
-        driveEncoder.reset();
-        turningEncoder.reset();
+    public void resetOdometry(Pose2d pose) {
+        odometer.resetPosition(pose, getRotation2d());
+    }
+    */
+
+    @Override
+    public void periodic() {
+        /*odometer.update(getRotation2d(), frontLeft.getState(), frontRight.getState(), backLeft.getState(),
+                backRight.getState());*/
+        SmartDashboard.putNumber("Robot Heading", getHeading());
+        //SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
     }
 
-    public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+    public void stopModules() {
+        frontLeft.stop();
+        frontRight.stop();
+        backLeft.stop();
+        backRight.stop();
     }
 
-    public void setDesiredState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
-            stop();
-            return;
-        }
-        state = SwerveModuleState.optimize(state, getState().angle);
-        driveMotor.set(ControlMode.PercentOutput, state.speedMetersPerSecond / Constants.DRIVE.kPhysicalMaxSpeedMetersPerSecond);
-        turningMotor.set(ControlMode.PercentOutput, turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
-        SmartDashboard.putString("Swerve[" + turningEncoder.getRaw() + "] state", state.toString());
-    }
-
-    public void stop() {
-        driveMotor.set(ControlMode.PercentOutput, 0);
-        turningMotor.set(ControlMode.PercentOutput, 0);
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Drive.kPhysicalMaxSpeedMetersPerSecond);
+        frontLeft.setDesiredState(desiredStates[0]);
+        frontRight.setDesiredState(desiredStates[1]);
+        backLeft.setDesiredState(desiredStates[2]);
+        backRight.setDesiredState(desiredStates[3]);
     }
 }

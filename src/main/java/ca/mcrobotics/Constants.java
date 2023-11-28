@@ -4,6 +4,8 @@
 
 package ca.mcrobotics;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
@@ -25,7 +27,7 @@ public final class Constants {
     public static final int OVER_XBOX = 1;
   }
 
-  public static class DRIVE {
+  public static class Drive {
     //PID stuff
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
     public static final double kDriveMotorGearRatio = 1 / 5.8462;
@@ -35,7 +37,16 @@ public final class Constants {
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
     public static final double kPTurning = 0.5;
-    
+
+    public static final double kTrackWidth = Units.inchesToMeters(21);
+    public static final double kWheelBase = Units.inchesToMeters(25.5);
+
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+      new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+      new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+      new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
+      new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+
     // CAN IDs for drivetrain motors
     public static final int FRONT_LEFT_SPEED = 0;
     public static final int FRONT_RIGHT_SPEED = 1;
@@ -69,15 +80,10 @@ public final class Constants {
     public static final int BACK_RIGHT_ROTATION_ENODER_A = 14;
     public static final int BACK_RIGHT_ROTATION_ENODER_B = 15;
 
-    public static final boolean FRONT_LEFT_SPEED_ABSOLUTE_ENCODER_REVERSED = false;
-    public static final boolean FRONT_RIGHT_SPEED_ABSOLUTE_ENCODER_REVERSED = false;
-    public static final boolean BACK_LEFT_SPEED_ABSOLUTE_ENCODER_REVERSED = false;
-    public static final boolean BACK_RIGHT_SPEED_ABSOLUTE_ENCODER_REVERSED = false;
-
-    public static final boolean FRONT_LEFT_ROTATION_ABSOLUTE_ENCODER_REVERSED = false;
-    public static final boolean FRONT_RIGHT_ROTATION_ABSOLUTE_ENCODER_REVERSED = false;
-    public static final boolean BACK_LEFT_ROTATION_ABSOLUTE_ENCODER_REVERSED = false;
-    public static final boolean BACK_RIGHT_ROTATION_ABSOLUTE_ENCODER_REVERSED = false;
+    public static final boolean FRONT_LEFT_SPEED_REVERSED = true;
+    public static final boolean FRONT_RIGHT_SPEED_REVERSED = false;
+    public static final boolean BACK_LEFT_SPEED_REVERSED = true;
+    public static final boolean BACK_RIGHT_SPEED_REVERSED = false;
 
     public static final double FRONT_LEFT_SPEED_ABSOLUTE_ENCODER_OFFSET_RAD = -0.254;
     public static final double FRONT_RIGHT_SPEED_ABSOLUTE_ENCODER_OFFSET_RAD = -1.252;
@@ -89,7 +95,7 @@ public final class Constants {
     public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
   }
 
-  public static final class CLAMP {
+  public static final class Clamp {
     // We use the CTREPCM pnuematic control module
     public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
     // Compressor module number
@@ -99,7 +105,7 @@ public final class Constants {
     public static final int SOLENOID_REV = 7;
   }
 
-  public static class ARM {
+  public static class Arm {
     // CAN IDs for arm motors
     public static final int MOTOR_LEFT_CAN = 22;
     public static final int MOTOR_RIGHT_CAN = 21;
@@ -115,4 +121,8 @@ public final class Constants {
     public static final double PID_K = 0.3; 
   }
 
+  public static class Flywheel {
+    // CAN IDs for arm motors
+    public static final int FLYWHEEL_CAN = 0;
+  }
 }
