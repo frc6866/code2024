@@ -24,7 +24,7 @@ public final class Constants {
 
   public static class CONTROL {
     public static final int MAIN_XBOX = 0;
-    public static final int OVER_XBOX = 1;
+    public static final int ALT_XBOX = 1;
   }
 
   public static class Drive {
