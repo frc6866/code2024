@@ -7,7 +7,6 @@ package ca.mcrobotics;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -27,6 +26,27 @@ public final class Constants {
     public static final int OVER_XBOX = 1;
   }
 
+  public static class Common {
+    public static final double SHUFFLEBOARD_UPDATE_INTERVAL = 0.3;
+
+    public static final String DEFAULT_AUTON = "Pain";
+  }
+
+  public static class Features {
+    public static final boolean ENABLE_PARAMTWEAKER = true;
+    public static final boolean ENABLE_CONTROLS = true;
+    
+    public static final boolean ENABLE_DRIVETRAIN = true;
+    public static final boolean ENABLE_GYRO = true;
+    public static final boolean ENABLE_FLYWHEEL = true;
+    public static final boolean ENABLE_INTAKE = true;
+    public static final boolean ENABLE_CLIMB = true;
+
+    public static boolean everything() {
+      return ENABLE_PARAMTWEAKER && ENABLE_CONTROLS && ENABLE_DRIVETRAIN && ENABLE_GYRO && ENABLE_FLYWHEEL && ENABLE_INTAKE && ENABLE_CLIMB;
+    }
+  }
+  
   public static class Drive {
     //PID stuff
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
@@ -95,34 +115,26 @@ public final class Constants {
     public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
   }
 
-  public static final class Clamp {
-    // We use the CTREPCM pnuematic control module
-    public static final PneumaticsModuleType PCM_TYPE = PneumaticsModuleType.CTREPCM;
-    // Compressor module number
-    public static final int COMPRESSOR = 0;
-    // PCM port IDs for piston and compressor operation
-    public static final int SOLENOID_FORW = 6;
-    public static final int SOLENOID_REV = 7;
-  }
-
-  public static class Arm {
-    // CAN IDs for arm motors
-    public static final int MOTOR_LEFT_CAN = 22;
-    public static final int MOTOR_RIGHT_CAN = 21;
-    // encoder ports for arm quadrature encoder
-    // (this is just one encoder that uses 4 ports)
-    public static final int ENCODER_A = 1;
-    public static final int ENCODER_B = 2;
-    public static final int ENCODER_C = 3;
-    public static final int ENCODER_D = 4;
-    // limits
-    public static final double LOW_LIMIT = 0.0;
-    public static final double HIGH_LIMIT = 5500.0;
-    public static final double PID_K = 0.3; 
-  }
-
   public static class Flywheel {
-    // CAN IDs for arm motors
-    public static final int FLYWHEEL_CAN = 0;
+    // CAN IDs for motors
+    public static final int FLYWHEEL1_CAN = 1;
+    public static final int FLYWHEEL2_CAN = 2;
+  }
+
+  public static class Intake {
+    // CAN IDs for motors
+    public static final int INTAKE1_CAN = 3;
+    public static final int INTAKE2_CAN = 4;
+  }
+
+  public static class Climb {
+    // CAN IDs for motors
+    public static final int CLIMB1_CAN = 5;
+    public static final int CLIMB2_CAN = 6;
+  }
+
+  public static class Template {
+    public static final int TEMPLATE_CAN = 7;
+    public static double peakSpeed = 0.2;
   }
 }
