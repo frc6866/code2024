@@ -1,5 +1,7 @@
 package ca.mcrobotics.subsystems.motor;
 
+import java.util.function.Consumer;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -26,6 +28,13 @@ public class MotorBuilder {
         return new Motor(this);
     }
 
+    /**
+     * Set the device number for the motor. This has to be the first non-constructor
+     * method called.
+     * 
+     * @param deviceNumber The device number of the motor.
+     * @return The MotorBuilder object for method chaining.
+     */
     public MotorBuilder setDeviceNumber(int deviceNumber) {
         this.motor = new TalonSRX(deviceNumber);
         return this;
@@ -59,6 +68,29 @@ public class MotorBuilder {
 
     public MotorBuilder setTimeoutMs(int timeoutMs) {
         this.timeoutMs = timeoutMs;
+        return this;
+    }
+
+    /**
+     * This method is used to configure the motor with any other settings that are
+     * not predefined.
+     * 
+     * @param callback The callback function to configure the motor. The callback
+     *                 function should accept a TalonSRX
+     *                 object (a motor).
+     * @return The MotorBuilder object for method chaining.
+     * @throws MotorNotConfiguredException if the device number is not set before
+     *                                     calling this method, i.e., TalonSRX
+     *                                     hasn't been created yet so there's no
+     *                                     motor to configure.
+     */
+    public MotorBuilder setMiscConfig(Consumer<TalonSRX> callback) throws MotorNotConfiguredException {
+        if (motor == null) {
+            throw new MotorNotConfiguredException("Please set device number first before calling this method.");
+        }
+
+        callback.accept(motor);
+
         return this;
     }
 }
