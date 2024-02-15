@@ -125,6 +125,11 @@ public final class Constants {
     // CAN IDs for motors
     public static final int INTAKE1_CAN = 3;
     public static final int INTAKE2_CAN = 4;
+
+    public static final double MAXIMUMOVERDRIVE=0.3f;
+//max speed
+public static final double speeeed=0.2f;
+
   }
 
   public static class Climb {
