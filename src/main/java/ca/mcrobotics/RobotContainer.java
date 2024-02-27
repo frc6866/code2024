@@ -4,11 +4,19 @@
 
 package ca.mcrobotics;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.RobotCentric;
+
+import ca.mcrobotics.commands.*;
 import ca.mcrobotics.subsystems.*;
-import ca.mcrobotics.subsystems.driveTrain.Swerve;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -19,42 +27,30 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final CommandXboxController mainXbox = new CommandXboxController(Constants.CONTROL.MAIN_XBOX);
+  /* Controllers */
+  private final XboxController driver = new XboxController(Constants.CONTROL.MAIN_XBOX);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-    /*Command tankDrive = Commands.runEnd(
-        () -> drive.drive(mainXbox.getLeftX(), mainXbox.getLeftY(), mainXbox.getRightY()),
-        () -> drive.stop(),
-        drive);
-    overXbox.rightBumper().whileTrue(tankDrive);
+  /* Drive Controls */
+  private final int translationAxis = XboxController.Axis.kLeftY.value;
+  private final int strafeAxis = XboxController.Axis.kLeftX.value;
+  private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-    Command tankDriveOver = Commands.runEnd(
-        () -> drive.drive(overXbox.getLeftX(), overXbox.getLeftY(), overXbox.getRightY()),
-        () -> drive.stop(),
-        drive);
-    overXbox.rightBumper().whileFalse(tankDriveOver);
+  /* Subsystems */
+  private final Swerve m_swerve = new Swerve();
 
-    Command liftArm = Commands.runEnd(
-        () -> arm.setPosition(Math.max(mainXbox.getLeftTriggerAxis(), mainXbox.getRightTriggerAxis())),
-        () -> arm.stop(),
-        arm);
-    overXbox.rightBumper().whileTrue(liftArm);
-
-    Command liftArmOver = Commands.runEnd(
-        () -> arm.setPosition(Math.max(overXbox.getLeftTriggerAxis(), overXbox.getRightTriggerAxis())),
-        () -> arm.stop(),
-        arm);
-    overXbox.rightBumper().whileFalse(liftArmOver);
-
-    Command climp = Commands.runOnce(() -> clamp.toggleClamp(), clamp);
-    overXbox.rightBumper().and(mainXbox.x()).whileTrue(climp);
-    overXbox.x().whileTrue(climp);
+  public RobotContainer() {
+    // Configure the button bindings
+    configureButtonBindings();
   }
-  */
-  
+
+  private void configureButtonBindings() {
+    m_swerve.setDefaultCommand(new TeleopSwerve(
+      m_swerve,
+      () -> -driver.getRawAxis(translationAxis),
+      () -> -driver.getRawAxis(strafeAxis),
+      () -> -driver.getRawAxis(rotationAxis)));
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
