@@ -4,16 +4,18 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import ca.mcrobotics.Constants;
 import ca.mcrobotics.subsystems.Swerve;
+import ca.mcrobotics.ui.Controls;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class CommandSwerve extends CommandBase {
     private Swerve s_Swerve;
-    private DoubleSupplier translationSup;
-    private DoubleSupplier strafeSup;
-    private DoubleSupplier rotationSup;
+    private Double translationSup;
+    private Double strafeSup;
+    private Double rotationSup;
     //private BooleanSupplier robotCentricSup;
 
     private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);
@@ -22,33 +24,26 @@ public class CommandSwerve extends CommandBase {
 
     public CommandSwerve(
             Swerve s_Swerve,
-            DoubleSupplier translationSup,
-            DoubleSupplier strafeSup,
-            DoubleSupplier rotationSup) {
+            Double translationSup,
+            Double strafeSup,
+            Double rotationSup) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
         this.translationSup = translationSup;
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
-        //this.robotCentricSup = robotCentricSup;
+
     }
 
     @Override
     public void execute() {
-        /* Get Values, Deadband */
-        double translationVal = translationLimiter.calculate(
-                MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.Drive.stickDeadband));
-        double strafeVal = strafeLimiter.calculate(
-                MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.Drive.stickDeadband));
-        double rotationVal = rotationLimiter.calculate(
-                MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Drive.stickDeadband));
-
-        /* Drive */
-        s_Swerve.drive(
-                new Translation2d(translationVal, strafeVal).times(Constants.Drive.maxSpeed),
-                rotationVal * Constants.Drive.maxAngularVelocity,
-                true,
-                true);
+        new RunCommand(
+        () -> s_Swerve.drive(
+          translationSup,
+          strafeSup,
+          rotationSup   ,
+          true, true),
+          s_Swerve);
     }
 }

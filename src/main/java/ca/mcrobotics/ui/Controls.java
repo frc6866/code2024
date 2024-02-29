@@ -4,16 +4,18 @@ import ca.mcrobotics.*;
 import ca.mcrobotics.commands.CommandSwerve;
 import ca.mcrobotics.subsystems.Swerve;
 import ca.mcrobotics.Constants.Features;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class Controls {
   private Robot robot;
-  private XboxController main;
-  private XboxController aux;
+  public XboxController master;
+  public XboxController aux;
 
   /* Drive Controls */
   private int translationAxis = XboxController.Axis.kLeftY.value;
@@ -32,7 +34,7 @@ public class Controls {
 
   public Controls(Robot robot) {
     this.robot = robot;
-    main = new XboxController(0);
+    master = new XboxController(0);
     aux = new XboxController(1);
 
     lastDataSendTime = Util.staggerUpdates();
@@ -48,7 +50,7 @@ public class Controls {
   }
 
   public XboxController getMainController() {
-    return main;
+    return master;
   }
 
   public XboxController getAuxController() {
@@ -59,19 +61,30 @@ public class Controls {
     if(Features.ENABLE_DRIVETRAIN) {
       robot.Swerve.setDefaultCommand(new CommandSwerve(
       robot.Swerve,
-      () -> -main.getRawAxis(translationAxis),
-      () -> -main.getRawAxis(strafeAxis),
-      () -> -main.getRawAxis(rotationAxis)));
-
+      -master.getRawAxis(translationAxis),
+      -master.getRawAxis(strafeAxis),
+      -master.getRawAxis(rotationAxis)));
+      //this.robotCentricSup = robotCentricSup;
+      // Configure default commands
+      robot.Swerve.setDefaultCommand(
+      // The left stick controls translation of the robot.
+      // Turning is controlled by the X axis of the right stick.
+      new RunCommand(
+        () -> robot.Swerve.drive(
+          -MathUtil.applyDeadband(master.getLeftY(), Constants.Drive.kDriveDeadband),
+          -MathUtil.applyDeadband(master.getLeftX(), Constants.Drive.kDriveDeadband),
+          -MathUtil.applyDeadband(master.getRightX(), Constants.Drive.kDriveDeadband),
+          true, true),
+        robot.Swerve));
     }
 
     if(Util.shouldUpdateShuffleboard(lastDataSendTime)) {
       lastDataSendTime = Util.getSeconds();
 
-      leftX.setDouble(main.getLeftX());
-      leftY.setDouble(main.getLeftY());
-      rightX.setDouble(main.getRightX());
-      rightY.setDouble(main.getRightY());
+      leftX.setDouble(master.getLeftX());
+      leftY.setDouble(master.getLeftY());
+      rightX.setDouble(master.getRightX());
+      rightY.setDouble(master.getRightY());
     }
   }
 }

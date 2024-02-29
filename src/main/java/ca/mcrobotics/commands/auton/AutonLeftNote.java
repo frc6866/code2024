@@ -12,9 +12,9 @@ public class AutonLeftNote extends SequentialCommandGroup {
     public AutonLeftNote(Robot robot, Swerve swerve) {
         addCommands(
             new CommandSwerve(swerve, 
-                              () -> 50, 
-                              () -> 0,
-                              () -> 0)
+                              50.0, 
+                              0.0,
+                              0.0)
         );
     }
 }

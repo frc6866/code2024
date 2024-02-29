@@ -12,9 +12,9 @@ public class TestAuton extends SequentialCommandGroup {
     public TestAuton(Robot robot, Swerve swerve) {
         addCommands(
             new CommandSwerve(swerve, 
-                              () -> 50, 
-                              () -> 0,
-                              () -> 0)
+                              50.0, 
+                              0.0,
+                              0.0)
         );
     }
 }

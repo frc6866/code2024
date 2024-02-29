@@ -54,19 +54,15 @@ public final class Constants {
   }
   
   public static class Drive {
-    //PID stuff
-    public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
-    public static final double kDriveMotorGearRatio = 1 / 5.8462;
-    public static final double kTurningMotorGearRatio = 1 / 18.0;
-    public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
-    public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
-    public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
-    public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-    public static final double kPTurning = 0.5;
+    public static final double kMaxSpeedMetersPerSecond = 4.8;
+    public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
+
+    public static final double kDirectionSlewRate = 1.2; // radians per second
+    public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
     public static final double kTrackWidth = Units.inchesToMeters(21);
     public static final double kWheelBase = Units.inchesToMeters(25.5);
-
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
       new Translation2d(kWheelBase / 2, kTrackWidth / 2),
       new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
@@ -75,64 +71,55 @@ public final class Constants {
 
     public static final double stickDeadband = 0.1;
 
-    public static final int pigeonID = 6;
-    public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
+    public static final int kDrivingMotorPinionTeeth = 14;
 
-    /* Drivetrain Constants */
-    public static final double trackWidth = Units.inchesToMeters(21.73);
-    public static final double wheelBase = Units.inchesToMeters(21.73);
-    public static final double wheelDiameter = Units.inchesToMeters(4.0);
-    public static final double wheelCircumference = wheelDiameter * Math.PI;
+    // Invert the turning encoder, since the output shaft rotates in the opposite direction of
+    // the steering motor in the MAXSwerve Module.
+    public static final boolean kTurningEncoderInverted = true;
 
-    public static final double openLoopRamp = 0.25;
-    public static final double closedLoopRamp = 0.0;
+    // Calculations required for driving motor conversion factors and feed forward
+    public static final double kDrivingMotorFreeSpeedRps = 5676/60;
+    public static final double kWheelDiameterMeters = 0.0762;
+    public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
+    // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15 teeth on the bevel pinion
+    public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
+    public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
+        / kDrivingMotorReduction;
 
-    public static final double driveGearRatio = (6.12 / 1.0); // 6.75:1
-    public static final double angleGearRatio = (7/150); // 150/7:1
-    
-    /* Swerve Voltage Compensation */
-    public static final double voltageComp = 12.0;
+    public static final double kDrivingEncoderPositionFactor = (kWheelDiameterMeters * Math.PI)
+        / kDrivingMotorReduction; // meters
+    public static final double kDrivingEncoderVelocityFactor = ((kWheelDiameterMeters * Math.PI)
+        / kDrivingMotorReduction) / 60.0; // meters per second
 
-    /* Swerve Current Limiting */
-    public static final int angleContinuousCurrentLimit = 20;
-    public static final int driveContinuousCurrentLimit = 80;
+    public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
+    public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
 
-    /* Angle Motor PID Values */
-    public static final double angleKP = 0.01;
-    public static final double angleKI = 0.0;
-    public static final double angleKD = 0.0;
-    public static final double angleKFF = 0.0;
+    public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
+    public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
 
-    /* Drive Motor PID Values */
-    public static final double driveKP = 0.1;
-    public static final double driveKI = 0.0;
-    public static final double driveKD = 0.0;
-    public static final double driveKFF = 0.0;
+    public static final double kDrivingP = 0.04;
+    public static final double kDrivingI = 0;
+    public static final double kDrivingD = 0;
+    public static final double kDrivingFF = 1 / kDriveWheelFreeSpeedRps;
+    public static final double kDrivingMinOutput = -1;
+    public static final double kDrivingMaxOutput = 1;
 
-    /* Drive Motor Characterization Values */
-    public static final double driveKS = 0.667;
-    public static final double driveKV = 2.44;
-    public static final double driveKA = 0.27;
+    public static final double kTurningP = 1;
+    public static final double kTurningI = 0;
+    public static final double kTurningD = 0;
+    public static final double kTurningFF = 0;
+    public static final double kTurningMinOutput = -1;
+    public static final double kTurningMaxOutput = 1;
 
-    /* Drive Motor Conversion Factors */
-    public static final double driveConversionPositionFactor =
-        (wheelDiameter * Math.PI) / driveGearRatio;
-    public static final double driveConversionVelocityFactor = driveConversionPositionFactor / 60.0;
-    public static final double angleConversionFactor = 360.0 / angleGearRatio;
+    public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
+    public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-    /* Swerve Profiling Values */
-    public static final double maxSpeed = 4.5; // meters per second
-    public static final double maxAngularVelocity = 11.5;
+    public static final int kDrivingMotorCurrentLimit = 50; // amps
+    public static final int kTurningMotorCurrentLimit = 20; // amps
 
-    /* Neutral Modes */
-    public static final IdleMode angleNeutralMode = IdleMode.kBrake;
-    public static final IdleMode driveNeutralMode = IdleMode.kBrake;
+    public static final boolean kGyroReversed = false;
 
-    /* Motor Inverts */
-    public static final boolean driveInvert = false;
-    public static final boolean angleInvert = false;
-
-    /* Angle Encoder Invert */
+    public static final double kDriveDeadband = 0.05;
     public static final boolean canCoderInvert = false;
 
     /* Module Specific Constants */
@@ -141,9 +128,7 @@ public final class Constants {
       public static final int DRIVE_MOTOR_ID = 4;
       public static final int ANGLE_MOTOR_ID = 3;
       public static final int CAN_CODER_ID = 1;
-      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(327.48046875);
-      public static final SwerveModuleConstants CONSTANTS =
-          new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CAN_CODER_ID, ANGLE_OFFSET);
+      public static final double ANGLE_OFFSET = 327.48046875;
     }
 
     /* Front Right Module - Module 1 */
@@ -151,9 +136,7 @@ public final class Constants {
       public static final int DRIVE_MOTOR_ID = 14;
       public static final int ANGLE_MOTOR_ID = 13;
       public static final int CAN_CODER_ID = 2;
-      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(286.34765625);
-      public static final SwerveModuleConstants CONSTANTS =
-          new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CAN_CODER_ID, ANGLE_OFFSET);
+      public static final double ANGLE_OFFSET = 286.34765625;
     }
 
     /* Back Left Module - Module 2 */
@@ -161,9 +144,7 @@ public final class Constants {
       public static final int DRIVE_MOTOR_ID = 2;
       public static final int ANGLE_MOTOR_ID = 1;
       public static final int CAN_CODER_ID = 3;
-      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(55.01953125);
-      public static final SwerveModuleConstants CONSTANTS =
-          new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CAN_CODER_ID, ANGLE_OFFSET);
+      public static final double ANGLE_OFFSET = 55.01953125;
     }
 
     /* Back Right Module - Module 3 */
@@ -171,9 +152,7 @@ public final class Constants {
       public static final int DRIVE_MOTOR_ID = 15;
       public static final int ANGLE_MOTOR_ID = 16;
       public static final int CAN_CODER_ID = 4;
-      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(67.939453125);
-      public static final SwerveModuleConstants CONSTANTS =
-          new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CAN_CODER_ID, ANGLE_OFFSET);
+      public static final double ANGLE_OFFSET = 67.939453125;
     }
   }
   
