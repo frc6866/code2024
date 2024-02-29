@@ -27,29 +27,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  /* Controllers */
-  private final XboxController driver = new XboxController(Constants.CONTROL.MAIN_XBOX);
+  public RobotContainer() {}
 
-  /* Drive Controls */
-  private final int translationAxis = XboxController.Axis.kLeftY.value;
-  private final int strafeAxis = XboxController.Axis.kLeftX.value;
-  private final int rotationAxis = XboxController.Axis.kRightX.value;
-
-  /* Subsystems */
-  private final Swerve m_swerve = new Swerve();
-
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-  }
-
-  private void configureButtonBindings() {
-    m_swerve.setDefaultCommand(new TeleopSwerve(
-      m_swerve,
-      () -> -driver.getRawAxis(translationAxis),
-      () -> -driver.getRawAxis(strafeAxis),
-      () -> -driver.getRawAxis(rotationAxis)));
-  }
+  private void configureButtonBindings() {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

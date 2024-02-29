@@ -6,8 +6,14 @@ package ca.mcrobotics;
 
 import ca.lib.config.CTREConfigs;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import ca.mcrobotics.ui.*;
+import ca.mcrobotics.commands.auton.*;
+import ca.mcrobotics.subsystems.Swerve;
+import ca.mcrobotics.subsystems.FailedSwerve.SwerveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,6 +25,13 @@ public class Robot extends TimedRobot {
   public static CTREConfigs ctreConfigs;
   private Command m_autonomousCommand;
   private RobotContainer robotContainer;
+
+  public Swerve Swerve;
+
+  private ParamTweaker paramTweaker;
+  private AutonManager autonManager;
+  private Controls controls;
+  private SendableChooser<String> autonChooser;
 
   /**
    * This function is run when the robot is first started up and should be used for any

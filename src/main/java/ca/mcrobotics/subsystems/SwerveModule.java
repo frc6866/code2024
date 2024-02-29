@@ -17,7 +17,7 @@ import ca.lib.util.CANCoderUtil.CCUsage;
 import ca.lib.util.CANSparkMaxUtil;
 import ca.lib.util.CANSparkMaxUtil.Usage;
 import ca.mcrobotics.Constants;
-import ca.mcrobotics.*;;
+import ca.mcrobotics.*;
 
 public class SwerveModule {
   public int moduleNumber;

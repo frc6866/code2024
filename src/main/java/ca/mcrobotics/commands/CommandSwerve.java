@@ -9,7 +9,7 @@ import ca.mcrobotics.subsystems.Swerve;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-public class TeleopSwerve extends CommandBase {
+public class CommandSwerve extends CommandBase {
     private Swerve s_Swerve;
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
@@ -20,7 +20,7 @@ public class TeleopSwerve extends CommandBase {
     private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
     private SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);
 
-    public TeleopSwerve(
+    public CommandSwerve(
             Swerve s_Swerve,
             DoubleSupplier translationSup,
             DoubleSupplier strafeSup,

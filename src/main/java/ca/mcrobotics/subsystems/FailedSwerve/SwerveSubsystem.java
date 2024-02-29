@@ -167,4 +167,9 @@ public class SwerveSubsystem extends SubsystemBase {
       Util.putEntry(brEncoder, brCanCoder.getAbsolutePosition());
     }
   }
+
+public Object setSpeedModifier(double d) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'setSpeedModifier'");
+}
 }
