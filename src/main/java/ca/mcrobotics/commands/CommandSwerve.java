@@ -10,7 +10,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class CommandSwerve extends CommandBase {
-    private Swerve s_Swerve;
+    //private Swerve s_Swerve;
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
     private DoubleSupplier rotationSup;
@@ -25,7 +25,7 @@ public class CommandSwerve extends CommandBase {
             DoubleSupplier translationSup,
             DoubleSupplier strafeSup,
             DoubleSupplier rotationSup) {
-        this.s_Swerve = s_Swerve;
+        //this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
         this.translationSup = translationSup;
@@ -45,10 +45,6 @@ public class CommandSwerve extends CommandBase {
                 MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Drive.stickDeadband));
 
         /* Drive */
-        s_Swerve.drive(
-                new Translation2d(translationVal, strafeVal).times(Constants.Drive.maxSpeed),
-                rotationVal * Constants.Drive.maxAngularVelocity,
-                true,
-                true);
+        /**/
     }
 }

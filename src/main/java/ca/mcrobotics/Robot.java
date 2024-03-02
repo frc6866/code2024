@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
     ctreConfigs = new CTREConfigs();
     robotContainer = new RobotContainer();
     s_swerve = new Swerve();
+    controls = new Controls(this);
   }
 
   /**

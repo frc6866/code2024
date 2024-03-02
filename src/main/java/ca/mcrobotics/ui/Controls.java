@@ -4,6 +4,9 @@ import ca.mcrobotics.*;
 import ca.mcrobotics.commands.CommandSwerve;
 import ca.mcrobotics.subsystems.Swerve;
 import ca.mcrobotics.Constants.Features;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -21,8 +24,10 @@ public class Controls {
   private int strafeAxis = XboxController.Axis.kLeftX.value;
   private int rotationAxis = XboxController.Axis.kRightX.value;
 
-  /* Subsystems */
-  private Swerve m_swerve = new Swerve();
+  private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);
+  private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
+  private SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);
+
 
   double lastDataSendTime;
   ShuffleboardTab tab;
@@ -36,6 +41,10 @@ public class Controls {
     main = new XboxController(0);
     aux = new XboxController(1);
 
+    translationAxis = XboxController.Axis.kLeftY.value;
+    strafeAxis = XboxController.Axis.kLeftX.value;
+    rotationAxis = XboxController.Axis.kRightX.value;
+    
     lastDataSendTime = Util.staggerUpdates();
     tab = Shuffleboard.getTab("Controls");
     leftX = Util.makeEntry(tab, "Left X", 0, 0, 2, 1);
@@ -56,14 +65,18 @@ public class Controls {
   }
 
   public void teleopPeriodic() {
-    if(Features.ENABLE_DRIVETRAIN) {
-      robot.s_swerve.setDefaultCommand(new CommandSwerve(
-      robot.s_swerve,
-      () -> -main.getRawAxis(translationAxis),
-      () -> -main.getRawAxis(strafeAxis),
-      () -> -main.getRawAxis(rotationAxis)));
-    }
+    translationAxis = XboxController.Axis.kLeftY.value;
+    strafeAxis = XboxController.Axis.kLeftX.value;
+    rotationAxis = XboxController.Axis.kRightY.value;
 
+      robot.s_swerve.drive(
+        new Translation2d(
+          translationLimiter.calculate(MathUtil.applyDeadband(-main.getRawAxis(translationAxis), Constants.Drive.stickDeadband)),
+          strafeLimiter.calculate(MathUtil.applyDeadband(-main.getRawAxis(strafeAxis), Constants.Drive.stickDeadband))).times(Constants.Drive.maxSpeed),
+          rotationLimiter.calculate(MathUtil.applyDeadband(-main.getRawAxis(rotationAxis), Constants.Drive.stickDeadband)) * Constants.Drive.maxAngularVelocity,
+        true,
+        true);
+    
     if(Util.shouldUpdateShuffleboard(lastDataSendTime)) {
       lastDataSendTime = Util.getSeconds();
 
