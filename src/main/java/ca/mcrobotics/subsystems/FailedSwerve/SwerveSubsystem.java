@@ -6,12 +6,15 @@
 
 package ca.mcrobotics.subsystems.FailedSwerve;
 
+import edu.wpi.first.hal.CANAPITypes.CANDeviceType;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.*;
+import swervelib.encoders.CANCoderSwerve;
+
 import com.ctre.phoenix.sensors.*;
 import com.revrobotics.*;
-import com.revrobotics.CANSparkMaxLowLevel.*;
+import com.revrobotics.CANSparkMax;
 import ca.mcrobotics.*;
 
 public class SwerveSubsystem extends SubsystemBase {
@@ -25,10 +28,10 @@ public class SwerveSubsystem extends SubsystemBase {
   private CANSparkMax blMotorRot;
   private CANSparkMax brMotorRot;
 
-  private CANCoder flCanCoder;
-  private CANCoder frCanCoder;
-  private CANCoder blCanCoder;
-  private CANCoder brCanCoder;
+  private CANCoderSwerve flCanCoder;
+  private CANCoderSwerve frCanCoder;
+  private CANCoderSwerve blCanCoder;
+  private CANCoderSwerve brCanCoder;
 
   ShuffleboardTab swerve;
 
@@ -50,20 +53,20 @@ public class SwerveSubsystem extends SubsystemBase {
   double lastDataSendTime;
 
   public SwerveSubsystem() {
-    flMotorFwd = new CANSparkMax(Constants.Drive.Mod0.DRIVE_MOTOR_ID, MotorType.kBrushless);
-    frMotorFwd = new CANSparkMax(Constants.Drive.Mod1.DRIVE_MOTOR_ID, MotorType.kBrushless);
-    blMotorFwd = new CANSparkMax(Constants.Drive.Mod2.DRIVE_MOTOR_ID, MotorType.kBrushless);
-    brMotorFwd = new CANSparkMax(Constants.Drive.Mod3.DRIVE_MOTOR_ID, MotorType.kBrushless);
+    flMotorFwd = new CANSparkMax(Constants.Drive.Mod0.DRIVE_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
+    frMotorFwd = new CANSparkMax(Constants.Drive.Mod1.DRIVE_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
+    blMotorFwd = new CANSparkMax(Constants.Drive.Mod2.DRIVE_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
+    brMotorFwd = new CANSparkMax(Constants.Drive.Mod3.DRIVE_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
 
-    flMotorRot = new CANSparkMax(Constants.Drive.Mod0.ANGLE_MOTOR_ID, MotorType.kBrushless);
-    frMotorRot = new CANSparkMax(Constants.Drive.Mod1.DRIVE_MOTOR_ID, MotorType.kBrushless);
-    blMotorRot = new CANSparkMax(Constants.Drive.Mod2.DRIVE_MOTOR_ID, MotorType.kBrushless);
-    brMotorRot = new CANSparkMax(Constants.Drive.Mod3.DRIVE_MOTOR_ID, MotorType.kBrushless);
+    flMotorRot = new CANSparkMax(Constants.Drive.Mod0.ANGLE_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
+    frMotorRot = new CANSparkMax(Constants.Drive.Mod1.DRIVE_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
+    blMotorRot = new CANSparkMax(Constants.Drive.Mod2.DRIVE_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
+    brMotorRot = new CANSparkMax(Constants.Drive.Mod3.DRIVE_MOTOR_ID, CANSparkMax.MotorType.kBrushless);
 
-    flCanCoder = new CANCoder(Constants.Drive.Mod0.CAN_CODER_ID);
-    frCanCoder = new CANCoder(Constants.Drive.Mod1.CAN_CODER_ID);
-    blCanCoder = new CANCoder(Constants.Drive.Mod2.CAN_CODER_ID);
-    brCanCoder = new CANCoder(Constants.Drive.Mod3.CAN_CODER_ID);
+    flCanCoder = new CANCoderSwerve(Constants.Drive.Mod0.CAN_CODER_ID);
+    frCanCoder = new CANCoderSwerve(Constants.Drive.Mod1.CAN_CODER_ID);
+    blCanCoder = new CANCoderSwerve(Constants.Drive.Mod2.CAN_CODER_ID);
+    brCanCoder = new CANCoderSwerve(Constants.Drive.Mod3.CAN_CODER_ID);
 
     lastDataSendTime = Util.staggerUpdates();
     swerve = Shuffleboard.getTab("Drivetrain");
@@ -84,22 +87,22 @@ public class SwerveSubsystem extends SubsystemBase {
   }
   
   public double[] getCanCoderPos() {
-    double pos[] = {flCanCoder.getPosition(), frCanCoder.getPosition(), blCanCoder.getPosition(), brCanCoder.getPosition()};
+    double pos[] = {flCanCoder.getAbsolutePosition(), frCanCoder.getAbsolutePosition(), blCanCoder.getAbsolutePosition(), brCanCoder.getAbsolutePosition()};
     return pos;
   }
 
   public void setCanCoderPos(double flPos, double frPos, double blPos, double brPos) {
-    flCanCoder.setPosition(flPos);
-    frCanCoder.setPosition(frPos);
-    blCanCoder.setPosition(blPos);
-    brCanCoder.setPosition(brPos);    
+    flCanCoder.setAbsoluteEncoderOffset(flPos);
+    frCanCoder.setAbsoluteEncoderOffset(frPos);
+    blCanCoder.setAbsoluteEncoderOffset(blPos);
+    brCanCoder.setAbsoluteEncoderOffset(brPos);    
   }
 
   public void resetCanCoder() {
-    flCanCoder.setPosition(0);
-    frCanCoder.setPosition(0);
-    blCanCoder.setPosition(0);
-    brCanCoder.setPosition(0);
+    flCanCoder.setAbsoluteEncoderOffset(0);
+    frCanCoder.setAbsoluteEncoderOffset(0);
+    blCanCoder.setAbsoluteEncoderOffset(0);
+    brCanCoder.setAbsoluteEncoderOffset(0);
   }
 
   /**
