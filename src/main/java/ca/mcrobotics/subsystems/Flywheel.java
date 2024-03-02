@@ -20,7 +20,7 @@ public class Flywheel extends SubsystemBase{
 
         lastDataSendTime = Util.staggerUpdates();
         tab = Shuffleboard.getTab("Flywheel");
-        mtrOut = Util.makeEntry(tab, "Motor out", 0, 0, 1, 1);
+        mtrOut = Util.makeEntry(tab, "Flywheel", 0, 0, 1, 1);
     }
 
     public void configure() {
@@ -33,6 +33,7 @@ public class Flywheel extends SubsystemBase{
 
     public void stop() {
         flywheelMotor.set(ControlMode.Disabled, 0);
+        // flywheelMotor.set(ControlMode.PercentOutput, 0); // maybe idk ?
     }
 
     public void move(double value) {
