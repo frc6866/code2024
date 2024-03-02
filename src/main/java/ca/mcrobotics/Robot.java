@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import ca.mcrobotics.ui.*;
 import ca.mcrobotics.commands.auton.*;
 import ca.mcrobotics.subsystems.Swerve;
-import ca.mcrobotics.subsystems.FailedSwerve.SwerveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -29,14 +28,12 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer robotContainer;
 
-  public Swerve Swerve;
+  public Swerve s_swerve;
 
   private ParamTweaker paramTweaker;
   private AutonManager autonManager;
   private Controls controls;
   private SendableChooser<String> autonChooser;
-
-  private XboxController main = new XboxController(0);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -48,6 +45,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     ctreConfigs = new CTREConfigs();
     robotContainer = new RobotContainer();
+    s_swerve = new Swerve();
   }
 
   /**
@@ -63,12 +61,8 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-    ShuffleboardTab controlsTab = Shuffleboard.getTab("Controls");
-    controlsTab.add("Left X", main.getLeftX());
-    controlsTab.add("Left Y", main.getLeftY());
-    controlsTab.add("Right X", main.getRightX());
-    SmartDashboard.updateValues();
     CommandScheduler.getInstance().run();
+    s_swerve.periodic();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -106,7 +100,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    controls.teleopPeriodic();
+  }
 
   @Override
   public void testInit() {

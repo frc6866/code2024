@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class Controls {
   private Robot robot;
-  private static XboxController main;
-  private static XboxController aux;
+  private XboxController main;
+  private XboxController aux;
 
   /* Drive Controls */
   private int translationAxis = XboxController.Axis.kLeftY.value;
@@ -45,10 +45,9 @@ public class Controls {
   }
 
   public void configureKeybinds() {
-  
   }
 
-  public static XboxController getMainController() {
+  public XboxController getMainController() {
     return main;
   }
 
@@ -58,12 +57,11 @@ public class Controls {
 
   public void teleopPeriodic() {
     if(Features.ENABLE_DRIVETRAIN) {
-      robot.Swerve.setDefaultCommand(new CommandSwerve(
-      robot.Swerve,
+      robot.s_swerve.setDefaultCommand(new CommandSwerve(
+      robot.s_swerve,
       () -> -main.getRawAxis(translationAxis),
       () -> -main.getRawAxis(strafeAxis),
       () -> -main.getRawAxis(rotationAxis)));
-
     }
 
     if(Util.shouldUpdateShuffleboard(lastDataSendTime)) {

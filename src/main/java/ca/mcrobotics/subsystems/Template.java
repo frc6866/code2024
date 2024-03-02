@@ -45,6 +45,10 @@ public class Template extends SubsystemBase{
             lastDataSendTime = Util.getSeconds();
             
             Util.putEntry(mtrOut, motorName.getMotorOutputPercent());
+
+            lastDataSendTime = Util.staggerUpdates();
+            tab = Shuffleboard.getTab("Template");
+            mtrOut = Util.makeEntry(tab, "Motor Out", 0, 0, 1, 1);
         }
     }
 }
