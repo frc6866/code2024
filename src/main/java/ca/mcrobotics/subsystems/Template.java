@@ -17,10 +17,6 @@ public class Template extends SubsystemBase{
     public Template() {
         motorName = new TalonSRX(Constants.Template.TEMPLATE_CAN);
         motorName.setNeutralMode(null);
-
-        lastDataSendTime = Util.staggerUpdates();
-        tab = Shuffleboard.getTab("Drivetrain");
-        mtrOut = Util.makeEntry(tab, "Motor out", 0, 0, 1, 1);
     }
 
     public void configure() {

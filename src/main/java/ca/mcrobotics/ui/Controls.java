@@ -8,12 +8,13 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class Controls {
   private Robot robot;
-  private XboxController main;
-  private XboxController aux;
+  private static XboxController main;
+  private static XboxController aux;
 
   /* Drive Controls */
   private int translationAxis = XboxController.Axis.kLeftY.value;
@@ -47,7 +48,7 @@ public class Controls {
   
   }
 
-  public XboxController getMainController() {
+  public static XboxController getMainController() {
     return main;
   }
 
@@ -72,6 +73,7 @@ public class Controls {
       leftY.setDouble(main.getLeftY());
       rightX.setDouble(main.getRightX());
       rightY.setDouble(main.getRightY());
+
     }
   }
 }

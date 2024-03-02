@@ -6,8 +6,11 @@ package ca.mcrobotics;
 
 import ca.lib.config.CTREConfigs;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import ca.mcrobotics.ui.*;
@@ -32,6 +35,8 @@ public class Robot extends TimedRobot {
   private AutonManager autonManager;
   private Controls controls;
   private SendableChooser<String> autonChooser;
+
+  private XboxController main = new XboxController(0);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -58,6 +63,11 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+    ShuffleboardTab controlsTab = Shuffleboard.getTab("Controls");
+    controlsTab.add("Left X", main.getLeftX());
+    controlsTab.add("Left Y", main.getLeftY());
+    controlsTab.add("Right X", main.getRightX());
+    SmartDashboard.updateValues();
     CommandScheduler.getInstance().run();
   }
 
