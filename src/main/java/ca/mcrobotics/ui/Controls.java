@@ -67,7 +67,7 @@ public class Controls {
   public void teleopPeriodic() {
     translationAxis = XboxController.Axis.kLeftY.value;
     strafeAxis = XboxController.Axis.kLeftX.value;
-    rotationAxis = XboxController.Axis.kRightY.value;
+    rotationAxis = XboxController.Axis.kRightX.value;
 
       robot.s_swerve.drive(
         new Translation2d(

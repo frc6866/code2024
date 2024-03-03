@@ -47,6 +47,17 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     s_swerve = new Swerve();
     controls = new Controls(this);
+
+    autonManager = new AutonManager();
+    autonManager.register(new TestAuton(this));
+    autonManager.register(new NoAuton(this));
+    autonManager.register(new AutonNoNote(this));
+    autonManager.register(new AutonLeftNote(this));
+    autonManager.register(new AutonCenter(this));
+    autonManager.register(new AutonRightNote(this));
+    
+    autonChooser = autonManager.createChooser(Constants.Common.DEFAULT_AUTON);
+    Shuffleboard.getTab("Robot").add("Auton Chooser", autonChooser).withSize(3, 1);
   }
 
   /**
@@ -76,11 +87,13 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = robotContainer.getAutonomousCommand();
+    m_autonomousCommand = autonManager.getCommand(autonChooser.getSelected());
 
-    // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
+      Util.logInfo(this, "Autonoumous mode activate with command: " + m_autonomousCommand);
       m_autonomousCommand.schedule();
+    } else {
+      Util.logWarn(this, "Attempted to select nonexistent auton command: " + autonChooser.getSelected());
     }
   }
 
@@ -94,6 +107,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    Util.logInfo(this, "Teleop mode enable");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

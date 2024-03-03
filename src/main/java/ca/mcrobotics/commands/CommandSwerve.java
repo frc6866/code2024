@@ -5,11 +5,13 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import ca.mcrobotics.Constants;
+import ca.mcrobotics.Robot;
 import ca.mcrobotics.subsystems.Swerve;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class CommandSwerve extends CommandBase {
+        private Robot robot;
     //private Swerve s_Swerve;
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
@@ -21,17 +23,16 @@ public class CommandSwerve extends CommandBase {
     private SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);
 
     public CommandSwerve(
-            Swerve s_Swerve,
+            Robot robot,
             DoubleSupplier translationSup,
             DoubleSupplier strafeSup,
             DoubleSupplier rotationSup) {
-        //this.s_Swerve = s_Swerve;
-        addRequirements(s_Swerve);
+        this.robot = robot;
 
         this.translationSup = translationSup;
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
-        //this.robotCentricSup = robotCentricSup;
+        execute();        
     }
 
     @Override
@@ -45,6 +46,12 @@ public class CommandSwerve extends CommandBase {
                 MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Drive.stickDeadband));
 
         /* Drive */
+        robot.s_swerve.drive(
+                new Translation2d(translationVal, strafeVal).times(Constants.Drive.maxSpeed),
+                rotationVal * Constants.Drive.maxAngularVelocity,
+                true,
+                true
+        );
         /**/
     }
 }

@@ -8,27 +8,28 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import ca.mcrobotics.Constants;
 
 public class Swerve extends SubsystemBase {
-    //private final PigeonIMU gyro;
+    private final ADIS16470_IMU gyro;
 
     private SwerveModule[] mSwerveMods;
 
     private Field2d field;
 
     public Swerve() {
-      //gyro = new PigeonIMU(Constants.Drive.pigeonID);
-      //gyro.configFactoryDefault();
+      gyro = new ADIS16470_IMU();
+      gyro.calibrate();
       zeroGyro();
 
       mSwerveMods =
           new SwerveModule[] {
               new SwerveModule(0, Constants.Drive.Mod0.CONSTANTS),
-              //new SwerveModule(1, Constants.Drive.Mod1.CONSTANTS),
+              new SwerveModule(1, Constants.Drive.Mod1.CONSTANTS),
               new SwerveModule(2, Constants.Drive.Mod2.CONSTANTS),
               new SwerveModule(3, Constants.Drive.Mod3.CONSTANTS)
           };
@@ -73,10 +74,10 @@ public class Swerve extends SubsystemBase {
     }
 
     public Rotation2d getYaw() {
-        /*return (Constants.Drive.invertGyro)
-            ? Rotation2d.fromDegrees(360 - gyro.getYaw())
-            : Rotation2d.fromDegrees(gyro.getYaw());*/
-        return Rotation2d.fromDegrees(90);
+        return (Constants.Drive.invertGyro)
+            ? Rotation2d.fromDegrees(360 - gyro.getAngle())
+            : Rotation2d.fromDegrees(gyro.getAngle());
+        //return Rotation2d.fromDegrees(90);
     }
 
     public SwerveModulePosition[] getModulePos() {
@@ -88,6 +89,7 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic() {
+        gyro.setGyroAngleX(gyro.getAngle()-Constants.Common.GYRO_OFFSET);
         for (SwerveModule mod : mSwerveMods) {
             SmartDashboard.putNumber(
                 "Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
@@ -96,5 +98,6 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber(
                 "Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         }
+        SmartDashboard.putNumber("Gryo Values", gyro.getAngle());
     }
 }

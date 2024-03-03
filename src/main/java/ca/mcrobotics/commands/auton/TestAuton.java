@@ -9,12 +9,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand; //We do time based cus I'm too lazy to code PID based yay :D
 
 public class TestAuton extends SequentialCommandGroup {
-    public TestAuton(Robot robot, Swerve swerve) {
+    public TestAuton(Robot robot) {
         addCommands(
-            new CommandSwerve(swerve, 
-                              () -> 50, 
-                              () -> 0,
-                              () -> 0)
+            new CommandSwerve(robot,() -> 0.2,() -> 0,() -> 0)
         );
     }
 }
