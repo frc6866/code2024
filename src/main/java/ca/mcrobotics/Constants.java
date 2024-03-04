@@ -54,16 +54,6 @@ public final class Constants {
   }
   
   public static class Drive {
-    //PID stuff
-    public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
-    public static final double kDriveMotorGearRatio = 1 / 5.8462;
-    public static final double kTurningMotorGearRatio = 1 / 18.0;
-    public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
-    public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
-    public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
-    public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-    public static final double kPTurning = 0.5;
-
     public static final double kTrackWidth = Units.inchesToMeters(21);
     public static final double kWheelBase = Units.inchesToMeters(25.5);
 
@@ -75,7 +65,6 @@ public final class Constants {
 
     public static final double stickDeadband = 0.1;
 
-    public static final int pigeonID = 6;
     public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
     /* Drivetrain Constants */
@@ -209,10 +198,5 @@ public final class Constants {
     // CAN IDs for motors
     public static final int CLIMB1_CAN = 5;
     public static final int CLIMB2_CAN = 6;
-  }
-
-  public static class Template {
-    public static final int TEMPLATE_CAN = 7;
-    public static double peakSpeed = 0.2;
   }
 }
