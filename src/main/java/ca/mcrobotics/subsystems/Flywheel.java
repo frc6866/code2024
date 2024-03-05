@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Flywheel extends SubsystemBase {
-    TalonSRX flywheelMotor, flywheelMotor2;
+    TalonSRX flywheelMotor;
+    TalonSRX flywheelMotor2;
     ShuffleboardTab tab;
     GenericEntry mtrOut;
     double lastDataSendTime;
