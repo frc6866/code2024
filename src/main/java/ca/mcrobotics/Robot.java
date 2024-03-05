@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import ca.mcrobotics.ui.*;
 import ca.mcrobotics.commands.auton.*;
-import ca.mcrobotics.subsystems.Swerve;
+import ca.mcrobotics.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
   private RobotContainer robotContainer;
 
   public Swerve s_swerve;
+  public Flywheel s_flywheel;
 
   private ParamTweaker paramTweaker;
   private AutonManager autonManager;

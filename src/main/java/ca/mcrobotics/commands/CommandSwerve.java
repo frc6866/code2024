@@ -11,47 +11,46 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class CommandSwerve extends CommandBase {
-        private Robot robot;
-    //private Swerve s_Swerve;
-    private DoubleSupplier translationSup;
-    private DoubleSupplier strafeSup;
-    private DoubleSupplier rotationSup;
-    //private BooleanSupplier robotCentricSup;
+	private Robot robot;
+	// private Swerve s_Swerve;
+	private DoubleSupplier translationSup;
+	private DoubleSupplier strafeSup;
+	private DoubleSupplier rotationSup;
+	// private BooleanSupplier robotCentricSup;
 
-    private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);
-    private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
-    private SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);
+	private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);
+	private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
+	private SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);
 
-    public CommandSwerve(
-            Robot robot,
-            DoubleSupplier translationSup,
-            DoubleSupplier strafeSup,
-            DoubleSupplier rotationSup) {
-        this.robot = robot;
+	public CommandSwerve(
+			Robot robot,
+			DoubleSupplier translationSup,
+			DoubleSupplier strafeSup,
+			DoubleSupplier rotationSup) {
+		this.robot = robot;
 
-        this.translationSup = translationSup;
-        this.strafeSup = strafeSup;
-        this.rotationSup = rotationSup;
-        execute();        
-    }
+		this.translationSup = translationSup;
+		this.strafeSup = strafeSup;
+		this.rotationSup = rotationSup;
+		execute();
+	}
 
-    @Override
-    public void execute() {
-        /* Get Values, Deadband */
-        double translationVal = translationLimiter.calculate(
-                MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.Drive.stickDeadband));
-        double strafeVal = strafeLimiter.calculate(
-                MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.Drive.stickDeadband));
-        double rotationVal = rotationLimiter.calculate(
-                MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Drive.stickDeadband));
+	@Override
+	public void execute() {
+		/* Get Values, Deadband */
+		double translationVal = translationLimiter.calculate(
+				MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.Drive.stickDeadband));
+		double strafeVal = strafeLimiter.calculate(
+				MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.Drive.stickDeadband));
+		double rotationVal = rotationLimiter.calculate(
+				MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Drive.stickDeadband));
 
-        /* Drive */
-        robot.s_swerve.drive(
-                new Translation2d(translationVal, strafeVal).times(Constants.Drive.maxSpeed),
-                rotationVal * Constants.Drive.maxAngularVelocity,
-                true,
-                true
-        );
-        /**/
-    }
+		/* Drive */
+		robot.s_swerve.drive(
+				new Translation2d(translationVal, strafeVal).times(Constants.Drive.maxSpeed),
+				rotationVal * Constants.Drive.maxAngularVelocity,
+				true,
+				true);
+		/**/
+	}
 }

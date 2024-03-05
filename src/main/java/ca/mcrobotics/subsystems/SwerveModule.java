@@ -35,9 +35,8 @@ public class SwerveModule extends SubsystemBase {
   private final SparkMaxPIDController driveController;
   private final SparkMaxPIDController angleController;
 
-  private final SimpleMotorFeedforward feedforward =
-      new SimpleMotorFeedforward(
-          Constants.Drive.driveKS, Constants.Drive.driveKV, Constants.Drive.driveKA);
+  private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(
+      Constants.Drive.driveKS, Constants.Drive.driveKV, Constants.Drive.driveKA);
 
   public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants) {
     this.moduleNumber = moduleNumber;
@@ -52,7 +51,7 @@ public class SwerveModule extends SubsystemBase {
     integratedAngleEncoder = angleMotor.getEncoder();
     angleController = angleMotor.getPIDController();
     configAngleMotor();
- 
+
     /* Drive Motor Config */
     driveMotor = new CANSparkMax(moduleConstants.driveMotorID, CANSparkMax.MotorType.kBrushless);
     driveEncoder = driveMotor.getEncoder();
@@ -63,7 +62,8 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-    // Custom optimize command, since default WPILib optimize assumes continuous controller which
+    // Custom optimize command, since default WPILib optimize assumes continuous
+    // controller which
     // REV and CTRE are not
     desiredState = OnboardModuleState.optimize(desiredState, getState().angle);
 
@@ -130,25 +130,24 @@ public class SwerveModule extends SubsystemBase {
 
   private void setAngle(SwerveModuleState desiredState) {
     // Prevent rotating module if speed is less then 1%. Prevents jittering.
-    Rotation2d angle =
-        (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Drive.maxSpeed * 0.01))
-            ? lastAngle
-            : desiredState.angle;
+    Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Drive.maxSpeed * 0.01))
+        ? lastAngle
+        : desiredState.angle;
     if (moduleNumber == 3) {
-      Rotation2d.fromDegrees(angle.getDegrees()*0.85);
-    } 
+      Rotation2d.fromDegrees(angle.getDegrees() * 0.85);
+    }
     angleController.setReference(angle.getDegrees(), ControlType.kPosition);
     lastAngle = angle;
   }
 
   private Rotation2d getAngle() {
     return Rotation2d.fromDegrees(integratedAngleEncoder.getPosition());
-    //return Rotation2d.fromDegrees(90);
+    // return Rotation2d.fromDegrees(90);
   }
 
   public Rotation2d getCanCoder() {
     return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
-    //return Rotation2d.fromDegrees(90);
+    // return Rotation2d.fromDegrees(90);
   }
 
   public SwerveModuleState getState() {
