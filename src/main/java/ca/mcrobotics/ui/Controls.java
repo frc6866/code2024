@@ -69,13 +69,14 @@ public class Controls {
     strafeAxis = XboxController.Axis.kLeftX.value;
     rotationAxis = XboxController.Axis.kRightX.value;
 
-      robot.s_swerve.drive(
-        new Translation2d(
-          translationLimiter.calculate(MathUtil.applyDeadband(-main.getRawAxis(translationAxis), Constants.Drive.stickDeadband)),
-          strafeLimiter.calculate(MathUtil.applyDeadband(-main.getRawAxis(strafeAxis), Constants.Drive.stickDeadband))).times(Constants.Drive.maxSpeed),
-          rotationLimiter.calculate(MathUtil.applyDeadband(-main.getRawAxis(rotationAxis), Constants.Drive.stickDeadband)) * Constants.Drive.maxAngularVelocity,
-        true,
-        true);
+    robot.s_swerve.drive(
+      new Translation2d(
+        translationLimiter.calculate(MathUtil.applyDeadband(-main.getRawAxis(translationAxis), Constants.Drive.stickDeadband)),
+        strafeLimiter.calculate(MathUtil.applyDeadband(-main.getRawAxis(strafeAxis), Constants.Drive.stickDeadband))).times(Constants.Drive.maxSpeed),
+        rotationLimiter.calculate(MathUtil.applyDeadband(-main.getRawAxis(rotationAxis), Constants.Drive.stickDeadband)) * Constants.Drive.maxAngularVelocity,
+      true,
+      true);
+    robot.s_flywheel.move(main.getLeftTriggerAxis());
     
     if(Util.shouldUpdateShuffleboard(lastDataSendTime)) {
       lastDataSendTime = Util.getSeconds();
