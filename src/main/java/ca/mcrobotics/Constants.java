@@ -186,6 +186,7 @@ public final class Constants {
     // CAN IDs for motors
     public static final int FLYWHEEL1_CAN = 1;
     public static final int FLYWHEEL2_CAN = 2;
+    public static final double PEAK_SPEED = 0.2;
   }
 
   public static class Intake {
