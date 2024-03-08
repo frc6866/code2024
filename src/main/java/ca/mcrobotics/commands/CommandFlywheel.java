@@ -18,7 +18,7 @@ public class CommandFlywheel extends CommandBase {
 			Robot robot,
 			double speed) {
 		this.robot = robot;
-		this.speed = speed;
+		speed = speed;
 		execute();
 	}
 

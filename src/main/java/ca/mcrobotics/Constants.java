@@ -5,14 +5,17 @@
 package ca.mcrobotics;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.pathplanner.lib.util.PIDConstants;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import ca.lib.config.SwerveModuleConstants;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import swervelib.math.Matter;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -35,7 +38,7 @@ public final class Constants {
   public static class Common {
     public static final double SHUFFLEBOARD_UPDATE_INTERVAL = 0.3;
     public static final String DEFAULT_AUTON = "TestAuton";
-    public static final double GYRO_OFFSET = 0.023;
+    public static final double GYRO_OFFSET = 0;
   }
 
   public static class Features {
@@ -130,7 +133,7 @@ public final class Constants {
       public static final int DRIVE_MOTOR_ID = 2;
       public static final int ANGLE_MOTOR_ID = 1;
       public static final int CAN_CODER_ID = 9;
-      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(327.48046875);
+      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(0); //327.48046875
       public static final SwerveModuleConstants CONSTANTS =
           new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CAN_CODER_ID, ANGLE_OFFSET);
     }
@@ -140,7 +143,7 @@ public final class Constants {
       public static final int DRIVE_MOTOR_ID = 4;
       public static final int ANGLE_MOTOR_ID = 3;
       public static final int CAN_CODER_ID = 10;
-      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(286.34765625);
+      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(0); //286.34765625
       public static final SwerveModuleConstants CONSTANTS =
           new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CAN_CODER_ID, ANGLE_OFFSET);
     }
@@ -150,7 +153,7 @@ public final class Constants {
       public static final int DRIVE_MOTOR_ID = 6;
       public static final int ANGLE_MOTOR_ID = 5;
       public static final int CAN_CODER_ID = 11;
-      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(55.01953125);
+      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(0); //55.01953125
       public static final SwerveModuleConstants CONSTANTS =
           new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CAN_CODER_ID, ANGLE_OFFSET);
     }
@@ -160,10 +163,19 @@ public final class Constants {
       public static final int DRIVE_MOTOR_ID = 8;
       public static final int ANGLE_MOTOR_ID = 7;
       public static final int CAN_CODER_ID = 12;
-      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(67.939453125);
+      public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(0); //67.939453125
       public static final SwerveModuleConstants CONSTANTS =
           new SwerveModuleConstants(DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CAN_CODER_ID, ANGLE_OFFSET);
     }
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
+    public static final PIDConstants ANGLE_PID   = new PIDConstants(0.4, 0, 0.01);
+    public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
+    public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
+    public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
+    public static final double LEFT_X_DEADBAND  = 0.1;
+    public static final double LEFT_Y_DEADBAND  = 0.1;
+    public static final double RIGHT_X_DEADBAND = 0.1;
+    public static final double TURN_CONSTANT    = 6;
   }
   
     public static final class AutoConstants {
