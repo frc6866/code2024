@@ -54,6 +54,11 @@ public class Controls {
   }
 
   public void configureKeybinds() {
+    new JoystickButton(main, XboxController.Button.kLeftBumper.value)
+    .onTrue(Util.singleLambdaCommand(() -> robot.s_intake.startIntake()));
+
+    new JoystickButton(main, XboxController.Button.kRightBumper.value)
+    .onTrue(Util.singleLambdaCommand(() -> robot.s_intake.stopIntake()));
   }
 
   public XboxController getMainController() {
@@ -77,6 +82,8 @@ public class Controls {
       true,
       true);
     robot.s_flywheel.move(main.getLeftTriggerAxis());
+
+    
     
     if(Util.shouldUpdateShuffleboard(lastDataSendTime)) {
       lastDataSendTime = Util.getSeconds();
