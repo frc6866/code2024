@@ -1,6 +1,7 @@
 package ca.mcrobotics.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import ca.mcrobotics.*;
@@ -18,8 +19,8 @@ public class Flywheel extends SubsystemBase {
     public Flywheel() {
         flywheelMotor = new TalonSRX(Constants.Flywheel.FLYWHEEL1_CAN);
         flywheelMotor2 = new TalonSRX(Constants.Flywheel.FLYWHEEL2_CAN);
-        flywheelMotor.setNeutralMode(null);
-        flywheelMotor2.setNeutralMode(null);
+        flywheelMotor.setNeutralMode(NeutralMode.Coast);
+        flywheelMotor2.setNeutralMode(NeutralMode.Coast);
 
         lastDataSendTime = Util.staggerUpdates();
         tab = Shuffleboard.getTab("Flywheel");

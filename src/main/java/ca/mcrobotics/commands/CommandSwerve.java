@@ -46,11 +46,13 @@ public class CommandSwerve extends CommandBase {
 				MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Drive.stickDeadband));
 
 		/* Drive */
+		/*
 		robot.s_swerve.drive(
 				new Translation2d(translationVal, strafeVal).times(Constants.Drive.maxSpeed),
 				rotationVal * Constants.Drive.maxAngularVelocity,
 				true,
 				true);
+				*/
 		/**/
 	}
 }

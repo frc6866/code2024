@@ -4,7 +4,10 @@
 
 package ca.mcrobotics;
 
+import java.io.File;
+
 import ca.lib.config.CTREConfigs;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -28,7 +31,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer robotContainer;
 
-  public Swerve s_swerve;
+  public SwerveTest2 s_swerve;
   public Flywheel s_flywheel;
 
   private ParamTweaker paramTweaker;
@@ -46,7 +49,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     ctreConfigs = new CTREConfigs();
     robotContainer = new RobotContainer();
-    s_swerve = new Swerve();
+    s_swerve = new SwerveTest2(new File(Filesystem.getDeployDirectory(),"swerve/neo"));
+    s_flywheel = new Flywheel();
     controls = new Controls(this);
 
     autonManager = new AutonManager();
