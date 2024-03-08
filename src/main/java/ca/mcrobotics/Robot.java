@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
 
   public SwerveTest2 s_swerve;
   public Flywheel s_flywheel;
+  public Intake s_intake;
 
   private ParamTweaker paramTweaker;
   private AutonManager autonManager;
@@ -50,6 +51,7 @@ public class Robot extends TimedRobot {
     ctreConfigs = new CTREConfigs();
     robotContainer = new RobotContainer();
     s_swerve = new SwerveTest2(new File(Filesystem.getDeployDirectory(),"swerve/neo"));
+    s_intake = new Intake();
     s_flywheel = new Flywheel();
     controls = new Controls(this);
 
