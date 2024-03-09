@@ -102,7 +102,12 @@ public class Controls {
   }
 
   public void configureKeybinds() {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    new JoystickButton(main, XboxController.Button.kLeftBumper.value)
+    .onTrue(Util.singleLambdaCommand(() -> robot.s_intake.startIntake()));
+
+    new JoystickButton(main, XboxController.Button.kRightBumper.value)
+    .onTrue(Util.singleLambdaCommand(() -> robot.s_intake.stopIntake()));
+  }
 
     main.a().onTrue((Commands.runOnce(robot.s_swerve::zeroGyro)));
     main.x().onTrue(Commands.runOnce(robot.s_swerve::addFakeVisionReading));
