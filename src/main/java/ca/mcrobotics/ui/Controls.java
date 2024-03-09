@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class Controls {
   private Robot robot;
   private CommandXboxController main;
+  private CommandXboxController alt;
 
   /* Drive Controls */
   private int translationAxis = XboxController.Axis.kLeftY.value;
@@ -44,6 +45,7 @@ public class Controls {
   public Controls(Robot robot) {
     this.robot = robot;
     main = new CommandXboxController(0);
+    alt = new CommandXboxController(1);
 
     translationAxis = XboxController.Axis.kLeftY.value;
     strafeAxis = XboxController.Axis.kLeftX.value;
