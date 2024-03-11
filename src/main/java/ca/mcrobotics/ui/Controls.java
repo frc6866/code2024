@@ -22,7 +22,7 @@ public class Controls {
             robot.swerve,
             () -> -main.getLeftY(),
             () -> main.getLeftX(),
-            () -> main.getRightY(),
+            () -> main.getRightX(),
             () -> !main.getAButtonPressed()));
     }
 }

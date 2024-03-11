@@ -47,7 +47,7 @@ public class SwerveModule {
         turningEncoder.setPositionConversionFactor(Drive.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(Drive.kTurningEncoderRPM2RadPerSec);
 
-        turningPidController = new PIDController(Drive.kPTurning, 0, 0);
+        turningPidController = new PIDController(0.3, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
         resetEncoders();
@@ -70,19 +70,17 @@ public class SwerveModule {
     }
 
     public SwerveModulePosition getModulePos() {
-        return new SwerveModulePosition(getDrivePosition(), Rotation2d.fromRadians(getTurningPosition())); //Change turn pos to abs encoder
+        return new SwerveModulePosition(getDrivePosition(), Rotation2d.fromRadians(getAbsoluteEncoderRad())); //Change turn pos to abs encoder
     }
 
     public double getAbsoluteEncoderRad() {
-        double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
-        angle *= 2.0 * Math.PI;
-        angle -= absoluteEncoderOffsetRad;
-        return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
+        double angle = getTurningPosition()*(7/150);
+        return angle;
     }
 
     public void resetEncoders() {
         driveEncoder.setPosition(0);
-        turningEncoder.setPosition(getAbsoluteEncoderRad());
+        turningEncoder.setPosition(0);
     }
 
     public SwerveModuleState getState() {
