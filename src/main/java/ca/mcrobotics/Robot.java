@@ -6,7 +6,6 @@ package ca.mcrobotics;
 
 import java.io.File;
 
-import ca.lib.config.CTREConfigs;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -17,7 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import ca.mcrobotics.ui.*;
-import ca.mcrobotics.commands.auton.*;
 import ca.mcrobotics.subsystems.*;
 
 /**
@@ -27,11 +25,10 @@ import ca.mcrobotics.subsystems.*;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static CTREConfigs ctreConfigs;
   private Command m_autonomousCommand;
   private RobotContainer robotContainer;
 
-  public SwerveTest2 s_swerve;
+  public SwerveSubsystem s_swerve;
   public Flywheel s_flywheel;
   public Intake s_intake;
 
@@ -48,23 +45,11 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    ctreConfigs = new CTREConfigs();
     robotContainer = new RobotContainer();
-    s_swerve = new SwerveTest2(new File(Filesystem.getDeployDirectory(),"swerve/neo"));
-    s_intake = new Intake();
+    s_swerve = new SwerveSubsystem();
     s_flywheel = new Flywheel();
+    s_intake = new Intake();
     controls = new Controls(this);
-
-    autonManager = new AutonManager();
-    autonManager.register(new TestAuton(this));
-    autonManager.register(new NoAuton(this));
-    autonManager.register(new AutonNoNote(this));
-    autonManager.register(new AutonLeftNote(this));
-    autonManager.register(new AutonCenter(this));
-    autonManager.register(new AutonRightNote(this));
-    
-    autonChooser = autonManager.createChooser(Constants.Common.DEFAULT_AUTON);
-    Shuffleboard.getTab("Robot").add("Auton Chooser", autonChooser).withSize(3, 1);
   }
 
   /**
