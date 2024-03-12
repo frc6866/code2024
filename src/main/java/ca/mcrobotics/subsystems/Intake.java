@@ -44,9 +44,9 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (Util.shouldUpdateShuffleboard(lastDataSendTime)) {
+    /*if (Util.shouldUpdateShuffleboard(lastDataSendTime)) {
       lastDataSendTime = Util.getSeconds();
       Util.putEntry(mtrOut, intake.getMotorOutputPercent());
-    }
+    }*/
   }
 }

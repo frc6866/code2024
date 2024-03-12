@@ -91,7 +91,7 @@ public class SwerveSubsystem extends SubsystemBase {
                                                           frontRight.getModulePos(), 
                                                           backLeft.getModulePos(), 
                                                           backRight.getModulePos()}, 
-                               pose);
+                                pose);
     }
 
     @Override
@@ -102,8 +102,18 @@ public class SwerveSubsystem extends SubsystemBase {
                                                                           backLeft.getModulePos(), 
                                                                           backRight.getModulePos()});
         SmartDashboard.putNumber("Robot Heading", getHeading());
-        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-        SmartDashboard.putNumber("Ang 1", frontLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("FL: Angle", frontLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("FR: Angle", frontRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("BL: Angle", backLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("BR: Angle", backRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("FL: Angle mtr pos", frontLeft.getTurningPosition());
+        SmartDashboard.putNumber("FR: Angle mtr pos", frontRight.getTurningPosition());
+        SmartDashboard.putNumber("BL: Angle mtr pos", backLeft.getTurningPosition());
+        SmartDashboard.putNumber("BR: Angle mtr pos", backRight.getTurningPosition());
+        SmartDashboard.putNumber("FL: Vel", frontLeft.getTurningVelocity());
+        SmartDashboard.putNumber("FR: Vel", frontRight.getTurningVelocity());
+        SmartDashboard.putNumber("BL: Vel", backLeft.getTurningVelocity());
+        SmartDashboard.putNumber("BR: Vel", backRight.getTurningVelocity());
     }
 
     public void stopModules() {
