@@ -81,18 +81,21 @@ public class SwerveModule {
     public double getAbsoluteEncoderRad() {
         if (absoluteEncoderId == 10 || absoluteEncoderId == 12) {
             double angle = turningEncoder.getPosition()*7/150;
-            return angle;
+            angle *= 180/Math.PI;
+            angle = Math.IEEEremainder(angle, 360);
+            angle *= Math.PI/180;
+            return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
         } else {
             double angle = absoluteEncoder.getAbsolutePosition();
-            angle *= 2*Math.PI;
+            angle *= Math.PI/180;
             angle -= absoluteEncoderOffsetRad;
-            return angle;
+            return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
         }
     }
 
     public void resetEncoders() {
         driveEncoder.setPosition(0);
-        turningEncoder.setPosition(0);
+        turningEncoder.setPosition(getAbsoluteEncoderRad());
     }
 
     public SwerveModuleState getState() {
@@ -100,7 +103,7 @@ public class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) == 0) {
+        if (Math.abs(state.speedMetersPerSecond) <= 0.01) {
             stop();
             return;
         }
