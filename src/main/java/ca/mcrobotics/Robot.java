@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 
   public SwerveSubsystem s_swerve;
   public Flywheel s_flywheel;
-  public Amp s_intake;
+  public Amp s_amp;
 
   private ParamTweaker paramTweaker;
   private AutonManager autonManager;
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     s_swerve = new SwerveSubsystem();
     s_flywheel = new Flywheel();
-    s_intake = new Amp();
+    s_amp = new Amp();
     controls = new Controls(this);
   }
 

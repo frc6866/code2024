@@ -1,30 +1,26 @@
 package ca.mcrobotics.commands;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import ca.mcrobotics.Constants;
 import ca.mcrobotics.Robot;
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 
 public class CommandFlywheel extends CommandBase {
 	private Robot robot;
-	private double speed;
+	private double flywheelSpeed;
+	private double transferSpeed;
 
 	public CommandFlywheel(
 			Robot robot,
-			double speed) {
+			double flywheelSpeed,
+			double transferSpeed) {
 		this.robot = robot;
-		speed = speed;
+		this.flywheelSpeed = flywheelSpeed;
+		this.transferSpeed = transferSpeed;
 		execute();
 	}
 
 	@Override
 	public void execute() {
-		/* Drive */
-		robot.s_flywheel.move(speed);
-		/**/
+		robot.s_flywheel.moveFlywheel(flywheelSpeed);
+		robot.s_flywheel.moveTransfer(transferSpeed);
 	}
 }

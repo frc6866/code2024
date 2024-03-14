@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import ca.mcrobotics.Robot;
 import ca.mcrobotics.Constants.*;
 
-public class SwerveCommandJoystick extends CommandBase {
+public class CommandSwerve extends CommandBase {
 
     private Robot robot;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Supplier<Boolean> fieldOrientedFunction;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
 
-    public SwerveCommandJoystick(Robot robot, Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
+    public CommandSwerve(Robot robot, Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
             Supplier<Boolean> fieldOrientedFunction) {
         this.robot = robot;
         this.xSpdFunction = xSpdFunction;

@@ -24,16 +24,16 @@ public class CommandIntake extends CommandBase {
 	@Override
 	public void execute() {
 		if (stat) {
-			robot.s_intake.startAmp(Constants.Amp.MAX_SPEED);			
+			robot.s_amp.startAmp(Constants.Amp.MAX_SPEED);			
 		} else if (!stat) {
-			robot.s_intake.startAmp(-Constants.Amp.MAX_SPEED);			
+			robot.s_amp.startAmp(-Constants.Amp.MAX_SPEED);			
 		}
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		robot.s_intake.stopAmp();
+		robot.s_amp.stopAmp();
 
 	}
 
