@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import ca.mcrobotics.Constants;
 import ca.mcrobotics.Constants.Drive;
 
 public class SwerveModule {
@@ -51,7 +52,7 @@ public class SwerveModule {
         turningEncoder.setPositionConversionFactor(Drive.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(Drive.kTurningEncoderRPM2RadPerSec);
 
-        turningPidController = new PIDController(0.3, 0, 0);
+        turningPidController = new PIDController(Constants.Drive.kPTurning, Constants.Drive.kITurning, Constants.Drive.kDTurning);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
         resetEncoders();
@@ -95,7 +96,7 @@ public class SwerveModule {
     }
 
     public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getAbsoluteEncoderRad()));
     }
 
     public void setDesiredState(SwerveModuleState state) {

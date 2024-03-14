@@ -1,6 +1,5 @@
 package ca.mcrobotics.commands.auton;
 
-import ca.mcrobotics.Constants;
 import ca.mcrobotics.Robot;
 import ca.mcrobotics.commands.*;
 

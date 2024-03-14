@@ -1,9 +1,7 @@
 package ca.mcrobotics.commands.auton;
 
-import ca.mcrobotics.Constants;
 import ca.mcrobotics.Robot;
 import ca.mcrobotics.commands.CommandSwerve;
-import ca.mcrobotics.subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;

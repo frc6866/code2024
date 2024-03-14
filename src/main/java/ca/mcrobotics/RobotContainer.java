@@ -4,18 +4,7 @@
 
 package ca.mcrobotics;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.RobotCentric;
-
-import ca.mcrobotics.commands.*;
-import ca.mcrobotics.subsystems.*;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

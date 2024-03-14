@@ -1,17 +1,14 @@
 package ca.mcrobotics.commands;
 
-import com.fasterxml.jackson.databind.ser.std.SqlTimeSerializer;
-
 import ca.mcrobotics.Constants;
 import ca.mcrobotics.Robot;
-import ca.mcrobotics.subsystems.Amp;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class CommandIntake extends CommandBase {
+public class CommandAmp extends CommandBase {
 	private Robot robot;
 	private boolean stat;
 
-	public CommandIntake(Robot robot, boolean stat) {
+	public CommandAmp(Robot robot, boolean stat) {
 		this.robot = robot;
 		this.stat = stat;
 	}
