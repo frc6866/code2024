@@ -9,7 +9,5 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand; //We do time based cus I'm too lazy to code PID based yay :D
 
 public class NoAuton extends SequentialCommandGroup {
-    public NoAuton(Robot robot) {
-
-    }
+    public NoAuton(Robot robot) {}
 }

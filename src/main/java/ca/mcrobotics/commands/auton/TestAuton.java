@@ -10,6 +10,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand; //We do time based cus I'm to
 
 public class TestAuton extends SequentialCommandGroup {
     public TestAuton(Robot robot) {
-
+        addCommands(
+            new ParallelRaceGroup(new CommandSwerve(robot, () -> 1.0, () -> 1.0, () -> 1.0, () -> false), new WaitCommand(2)), //Taxi
+            new CommandSwerve(robot, () -> 0.0, () -> 0.0, () -> 0.0, () -> false)
+        );
     }
 }
