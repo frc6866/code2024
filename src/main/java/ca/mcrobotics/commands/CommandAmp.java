@@ -1,14 +1,16 @@
 package ca.mcrobotics.commands;
 
+import ca.mcrobotics.Constants;
 import ca.mcrobotics.Robot;
-import ca.mcrobotics.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class CommandIntake extends CommandBase {
+public class CommandAmp extends CommandBase {
 	private Robot robot;
+	private boolean stat;
 
-	public CommandIntake(Robot robot) {
+	public CommandAmp(Robot robot, boolean stat) {
 		this.robot = robot;
+		this.stat = stat;
 	}
 
 	// Called when the command is initially scheduled.
@@ -18,13 +20,17 @@ public class CommandIntake extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		robot.s_intake.startIntake();
+		if (stat) {
+			robot.s_amp.startAmp(Constants.Amp.MAX_SPEED_OUT);			
+		} else if (!stat) {
+			robot.s_amp.startAmp(-Constants.Amp.MAX_SPEED_IN);			
+		}
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		robot.s_intake.stopIntake();
+		robot.s_amp.stopAmp();
 
 	}
 

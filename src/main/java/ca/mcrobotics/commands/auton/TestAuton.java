@@ -10,6 +10,5 @@ import edu.wpi.first.wpilibj2.command.WaitCommand; //We do time based cus I'm to
 
 public class TestAuton extends SequentialCommandGroup {
     public TestAuton(Robot robot) {
-
     }
 }

@@ -135,16 +135,18 @@ public final class Constants {
 
   public static class Flywheel {
     // CAN IDs for motors
-    public static final int FLYWHEEL1_CAN = 1;
-    public static final int FLYWHEEL2_CAN = 2;
-    public static final double PEAK_SPEED = 0.2;
+    public static final int TRANSFER_CAN = 14;
+    public static final double PEAK_SPEED_TRANSFER = 0.3;
+    public static final int FLYWHEEL1_CAN = 15;
+    public static final int FLYWHEEL2_CAN = 16;
+    public static final double PEAK_SPEED_FLYWHEEL = 1;
   }
 
-  public static class Intake {
-    // CAN IDs for motors
-    public static final int INTAKE1_CAN = 3;
-    public static final int INTAKE2_CAN = 4;
-    public static final double MAX_SPEED = 1;
+  public static class Amp {
+  // CAN IDs for motors
+    public static final int AMP_CAN = 13;
+    public static final double MAX_SPEED_IN = 0.25;
+    public static final double MAX_SPEED_OUT = 1;
   }
 
   public static class Climb {
