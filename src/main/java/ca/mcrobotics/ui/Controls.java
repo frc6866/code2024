@@ -39,7 +39,7 @@ public class Controls {
         leftDrive = mainLeftX-mainRightX;
         rightDrive = mainLeftX+mainRightX;
 
-        if (Math.abs(mainLeftX) >= 0.9 &&  Math.abs(mainLeftY) <= 0.1) {
+        if (Math.abs(mainLeftX) >= 0.9 &&  Math.abs(mainLeftY) <= 0.1) { //Fix for swerve
             leftDrive = 1-mainLeftY;
             rightDrive = mainLeftY-1;
         }
