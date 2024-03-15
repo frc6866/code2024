@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer robotContainer;
 
-  public SwerveSubsystem s_swerve;
+  public Drive s_swerve;
   public Flywheel s_flywheel;
   public Intake s_intake;
 
@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-    s_swerve = new SwerveSubsystem();
+    s_swerve = new Drive();
     s_flywheel = new Flywheel();
     s_intake = new Intake();
     controls = new Controls(this);

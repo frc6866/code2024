@@ -4,7 +4,7 @@ import java.io.Console;
 
 import ca.mcrobotics.Robot;
 import ca.mcrobotics.Constants.OIConstants;
-import ca.mcrobotics.commands.SwerveCommandJoystick;
+import ca.mcrobotics.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -18,11 +18,8 @@ public class Controls {
     }
 
     public void teleopPeriodic() {
-        robot.s_swerve.setDefaultCommand(new SwerveCommandJoystick(
-            robot,
-            () -> -main.getLeftY(),
-            () -> main.getLeftX(),
-            () -> main.getRightX(),
-            () -> !main.getAButtonPressed()));
+        robot.s_swerve.setDefaultCommand(new CommandDrive(robot,
+                                                          main.getLeftY()-main.getRightX(),
+                                                          main.getLeftY()+main.getRightX()));
     }
 }
