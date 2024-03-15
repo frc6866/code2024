@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Amp extends SubsystemBase {
   private static VictorSPX ampMtr;
-  private static double INTAKE_SPEED = 0.5;
+  private double speed;
   ShuffleboardTab tab;
   GenericEntry mtrOut;
   double lastDataSendTime;
@@ -28,10 +28,15 @@ public class Amp extends SubsystemBase {
   }
 
   public void configure() {
+    if (Constants.Amp.MAX_SPEED_IN > Constants.Amp.MAX_SPEED_OUT) {
+      speed = Constants.Amp.MAX_SPEED_IN;
+    } else {
+      speed = Constants.Amp.MAX_SPEED_OUT;      
+    }
     ampMtr.configNominalOutputForward(0, 30);
     ampMtr.configNominalOutputReverse(0, 30);
-    ampMtr.configPeakOutputForward(Constants.Amp.MAX_SPEED, 30);
-    ampMtr.configPeakOutputReverse(-Constants.Amp.MAX_SPEED, 30);
+    ampMtr.configPeakOutputForward(speed, 30);
+    ampMtr.configPeakOutputReverse(-speed, 30);
 
   }
 

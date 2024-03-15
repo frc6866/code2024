@@ -21,9 +21,9 @@ public class CommandAmp extends CommandBase {
 	@Override
 	public void execute() {
 		if (stat) {
-			robot.s_amp.startAmp(Constants.Amp.MAX_SPEED);			
+			robot.s_amp.startAmp(Constants.Amp.MAX_SPEED_OUT);			
 		} else if (!stat) {
-			robot.s_amp.startAmp(-Constants.Amp.MAX_SPEED);			
+			robot.s_amp.startAmp(-Constants.Amp.MAX_SPEED_IN);			
 		}
 	}
 

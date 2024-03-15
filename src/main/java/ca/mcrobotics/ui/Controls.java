@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class Controls {
+    private double altRightY;
     Robot robot;
 
     XboxController main = new XboxController(Constants.CONTROL.MASTER_1); //Non LED
@@ -30,19 +31,25 @@ public class Controls {
             () -> !main.getAButtonPressed()));
                     
         if (alt.getYButton()) {
-            robot.s_amp.startAmp(Amp.MAX_SPEED);
+            robot.s_amp.startAmp(Amp.MAX_SPEED_OUT);
         } else if (alt.getAButton()) {
-            robot.s_amp.startAmp(-Amp.MAX_SPEED);
+            robot.s_amp.startAmp(-Amp.MAX_SPEED_IN);
         } else {
             robot.s_amp.stopAmp();
         }
 
-        if (alt.getBButton()) {
-            robot.s_flywheel.moveFlywheel(Flywheel.PEAK_SPEED_FLYWHEEL);
-            robot.s_flywheel.moveTransfer(Flywheel.PEAK_SPEED_TRANSFER);
-        } else if (alt.getXButton()) {
-            robot.s_flywheel.moveFlywheel(-Flywheel.PEAK_SPEED_FLYWHEEL);
-            robot.s_flywheel.moveTransfer(-Flywheel.PEAK_SPEED_TRANSFER);            
+        //Flywheel
+        if (alt.getXButton()) { //Intake
+            robot.s_flywheel.moveFlywheel(-Flywheel.PEAK_SPEED_FLYWHEEL*0.3);
+            robot.s_flywheel.moveTransfer(-Flywheel.PEAK_SPEED_TRANSFER*0.3);            
+        } else if (Math.abs(alt.getRightY()) > 0.05) { //Shoot
+            altRightY = Math.abs(alt.getRightY());
+            robot.s_flywheel.moveFlywheel(altRightY);
+            if (alt.getRightTriggerAxis() > 0){
+                robot.s_flywheel.moveTransfer(Flywheel.PEAK_SPEED_TRANSFER);
+            } else {
+                robot.s_flywheel.stopTransfer();
+            }
         } else {
             robot.s_flywheel.stopAll();
         }

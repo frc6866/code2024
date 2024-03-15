@@ -18,6 +18,15 @@ public class CommandFlywheel extends CommandBase {
 		execute();
 	}
 
+	public CommandFlywheel(
+			Robot robot,
+			double speed) {
+		this.robot = robot;
+		this.flywheelSpeed = speed;
+		this.transferSpeed = speed*0.3 ;
+		execute();
+	}
+
 	@Override
 	public void execute() {
 		robot.s_flywheel.moveFlywheel(flywheelSpeed);
