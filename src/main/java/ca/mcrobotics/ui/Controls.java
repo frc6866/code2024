@@ -7,6 +7,7 @@ import ca.mcrobotics.Constants;
 import ca.mcrobotics.Constants.Amp;
 import ca.mcrobotics.Constants.Flywheel;
 import ca.mcrobotics.Constants.OIConstants;
+import ca.mcrobotics.Constants.Speed;
 import ca.mcrobotics.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -32,9 +33,10 @@ public class Controls {
     }
 
     public void teleopPeriodic() {
-        mainLeftX = main.getLeftX();
-        mainLeftY = main.getLeftY();
-        mainRightX = main.getRightX();
+        // Multiplier for robot speed
+        mainLeftX = main.getLeftX() * robot.speed;
+        mainLeftY = main.getLeftY() * robot.speed;
+        mainRightX = main.getRightX() * robot.speed;
 
         leftDrive = mainLeftX-mainRightX;
         rightDrive = mainLeftX+mainRightX;
@@ -47,6 +49,11 @@ public class Controls {
         robot.s_swerve.drive(leftDrive,
                              rightDrive,
                              mainRightX*90);
+
+        
+        if (main.getYButton()) {
+            robot.speed = (robot.speed == Speed.FAST) ? Speed.SLOW : Speed.FAST;
+        }
 
         if (alt.getYButton()) {
             robot.s_amp.startAmp(Amp.MAX_SPEED_OUT);

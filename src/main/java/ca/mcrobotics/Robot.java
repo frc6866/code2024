@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import ca.mcrobotics.ui.*;
+import ca.mcrobotics.Constants.Speed;
 import ca.mcrobotics.subsystems.*;
 
 /**
@@ -31,6 +32,8 @@ public class Robot extends TimedRobot {
   public Drive s_swerve;
   public Flywheel s_flywheel;
   public Amp s_amp;
+  
+  public double speed; // Speed (1 or 0.4) for the robot
 
   private ParamTweaker paramTweaker;
   private AutonManager autonManager;
