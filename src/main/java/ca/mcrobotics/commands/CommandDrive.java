@@ -26,7 +26,7 @@ public class CommandDrive extends CommandBase {
 
     @Override
     public void execute() {
-        robot.s_swerve.drive(speedL, speedR);
+        robot.s_swerve.drive(speedL, speedR, 0);
     }
 
     @Override

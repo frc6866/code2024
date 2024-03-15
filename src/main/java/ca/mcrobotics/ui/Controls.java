@@ -20,20 +20,39 @@ public class Controls {
     double altRightY;
     double wheelAng;
 
+    double mainLeftX;
+    double mainLeftY;
+    double mainRightX;
+
+    double leftDrive;
+    double rightDrive;
+
     public Controls(Robot robot) {
         this.robot = robot;
     }
 
     public void teleopPeriodic() {
-        robot.s_swerve.drive(main.getLeftY()-main.getRightX(),
-                             main.getLeftY()+main.getRightX(),
-                             main.getPOV());
+        mainLeftX = main.getLeftX();
+        mainLeftY = main.getLeftY();
+        mainRightX = main.getRightX();
+
+        leftDrive = mainLeftX-mainRightX;
+        rightDrive = mainLeftX+mainRightX;
+
+        if (Math.abs(mainLeftX) >= 0.9 &&  Math.abs(mainLeftY) <= 0.1) {
+            leftDrive = 1-mainLeftY;
+            rightDrive = mainLeftY-1;
+        }
+
+        robot.s_swerve.drive(leftDrive,
+                             rightDrive,
+                             mainRightX*90);
 
         if (alt.getYButton()) {
             robot.s_amp.startAmp(Amp.MAX_SPEED_OUT);
         } else if (alt.getAButton()) {
             robot.s_amp.startAmp(-Amp.MAX_SPEED_IN);
-        } else {
+        } else { 
             robot.s_amp.stopAmp();
         }
 

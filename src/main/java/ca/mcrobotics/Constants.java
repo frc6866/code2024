@@ -84,9 +84,9 @@ public final class Constants {
     public static final boolean kBackRightDriveEncoderReversed = false;
 
     public static final int kFrontLeftDriveAbsoluteEncoderPort = 9;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 10; //Dead. Built in encoders
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 10; //Dead. Use built in encoders
     public static final int kBackLeftDriveAbsoluteEncoderPort = 11;
-    public static final int kBackRightDriveAbsoluteEncoderPort = 12; //Dead. Built in encoders
+    public static final int kBackRightDriveAbsoluteEncoderPort = 12; //Dead. Use builtin encoders
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
@@ -145,8 +145,8 @@ public final class Constants {
   public static class Amp {
   // CAN IDs for motors
     public static final int AMP_CAN = 13;
-    public static final double MAX_SPEED_IN = 0.25;
-    public static final double MAX_SPEED_OUT = 1;
+    public static final double MAX_SPEED_IN = 0.3;
+    public static final double MAX_SPEED_OUT = 0.75;
   }
 
   public static class Climb {

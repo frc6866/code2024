@@ -22,9 +22,10 @@ public class Amp extends SubsystemBase {
 
     ampMtr.setNeutralMode(NeutralMode.Brake);
 
-    // lastDataSendTime = Util.staggerUpdates();
-    // tab = Shuffleboard.getTab("Drivetrain");
-    // mtrOut = Util.makeEntry(tab, "Motor out", 0, 0, 1, 1);
+    lastDataSendTime = Util.staggerUpdates();
+    tab = Shuffleboard.getTab("Amp");
+    mtrOut = Util.makeEntry(tab, "Motor out", 0, 0, 1, 1);
+    configure();
   }
 
   public void configure() {
@@ -50,9 +51,9 @@ public class Amp extends SubsystemBase {
 
   @Override
   public void periodic() {
-    /*if (Util.shouldUpdateShuffleboard(lastDataSendTime)) {
+    if (Util.shouldUpdateShuffleboard(lastDataSendTime)) {
       lastDataSendTime = Util.getSeconds();
-      Util.putEntry(mtrOut, intake.getMotorOutputPercent());
-    }*/
+      Util.putEntry(mtrOut, ampMtr.getMotorOutputPercent());
+    }
   }
 }
