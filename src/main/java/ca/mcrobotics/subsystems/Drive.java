@@ -28,6 +28,8 @@ public class Drive extends SubsystemBase {
     private CANEncoder blEncoder;
     private CANEncoder brEncoder;
 
+    private double wheelAng;
+
     public Drive() {
         flDrive = new CANSparkMax(Constants.Drive.kFrontLeftDriveMotorPort, MotorType.kBrushless);
         frDrive = new CANSparkMax(Constants.Drive.kFrontRightDriveMotorPort, MotorType.kBrushless);
@@ -46,13 +48,48 @@ public class Drive extends SubsystemBase {
 
         flDrive.setInverted(true);
         blDrive.setInverted(true);
+
+        wheelAng = 0;
     }
 
-    public void drive(double left, double right) {
+    public void drive(double left, double right, double wheelAng) {
+        if (wheelAng == -1) {
+            this.wheelAng = 0;
+        } else {
+            this.wheelAng = wheelAng*7/150;
+        }
+        setWheelAng();
         flDrive.set(left);
         frDrive.set(right);
         blDrive.set(left);
         brDrive.set(right);
+    }
+
+    public void setWheelAng() {
+        if (Math.abs(flEncoder.getPosition()) > 0.005) {
+            flTurn.set((-flEncoder.getPosition()+wheelAng)*0.3);
+        } else if (flEncoder.getPosition() > -0.001 && flEncoder.getPosition() < 0.001) {
+            flTurn.set(0);
+        }
+        
+        if (Math.abs(frEncoder.getPosition()) > 0.005) {
+            frTurn.set((-frEncoder.getPosition()+wheelAng)*0.3);
+        } else if (frEncoder.getPosition() > -0.001 && frEncoder.getPosition() < 0.001) {
+            frTurn.set(0);
+        }
+
+        if (Math.abs(blEncoder.getPosition()) > 0.005) {
+            blTurn.set((-blEncoder.getPosition()+wheelAng)*0.3);
+        } else if (blEncoder.getPosition() > -0.001 && blEncoder.getPosition() < 0.001) {
+            blTurn.set(0);
+        }
+
+        if (Math.abs(brEncoder.getPosition()) > 0.001) {
+            brTurn.set((-brEncoder.getPosition()+wheelAng)*0.3);
+        } else if (brEncoder.getPosition() > -0.001 && brEncoder.getPosition() < 0.001) {
+            brTurn.set(0);
+        }
+
     }
 
     public void stop() {
@@ -68,28 +105,7 @@ public class Drive extends SubsystemBase {
         SmartDashboard.putNumber("2", frEncoder.getPosition());
         SmartDashboard.putNumber("3", blEncoder.getPosition());
         SmartDashboard.putNumber("4", brEncoder.getPosition());
-        if (Math.abs(flEncoder.getPosition()) > 0.005) {
-            flTurn.set(-flEncoder.getPosition()*0.3);
-        } else if (flEncoder.getPosition() > -0.001 && flEncoder.getPosition() < 0.001) {
-            flTurn.set(0);
-        }
-        
-        if (Math.abs(frEncoder.getPosition()) > 0.005) {
-            frTurn.set(-frEncoder.getPosition()*0.3);
-        } else if (frEncoder.getPosition() > -0.001 && frEncoder.getPosition() < 0.001) {
-            frTurn.set(0);
-        }
 
-        if (Math.abs(blEncoder.getPosition()) > 0.005) {
-            blTurn.set(-blEncoder.getPosition()*0.3);
-        } else if (blEncoder.getPosition() > -0.001 && blEncoder.getPosition() < 0.001) {
-            blTurn.set(0);
-        }
-
-        if (Math.abs(brEncoder.getPosition()) > 0.001) {
-            brTurn.set(-brEncoder.getPosition()*0.3);
-        } else if (brEncoder.getPosition() > -0.001 && brEncoder.getPosition() < 0.001) {
-            brTurn.set(0);
-        }
+        setWheelAng();
     }
 }

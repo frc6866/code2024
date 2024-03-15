@@ -18,6 +18,7 @@ public class Controls {
     XboxController alt = new XboxController(Constants.CONTROL.MASTER_2); //LED (Has left x axis drift)
 
     double altRightY;
+    double wheelAng;
 
     public Controls(Robot robot) {
         this.robot = robot;
@@ -25,7 +26,8 @@ public class Controls {
 
     public void teleopPeriodic() {
         robot.s_swerve.drive(main.getLeftY()-main.getRightX(),
-                             main.getLeftY()+main.getRightX());
+                             main.getLeftY()+main.getRightX(),
+                             main.getPOV());
 
         if (alt.getYButton()) {
             robot.s_amp.startAmp(Amp.MAX_SPEED_OUT);
