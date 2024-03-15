@@ -112,7 +112,7 @@ public class SwerveModule {
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
         SmartDashboard.putString("Swerve[" + absoluteEncoder.getDeviceID() + "] state", state.toString());
     }
-
+    
     public void stop() {
         driveMotor.set(0);
         turningMotor.set(0);

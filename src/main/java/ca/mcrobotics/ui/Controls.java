@@ -25,7 +25,7 @@ public class Controls {
     public void teleopPeriodic() {
         robot.s_swerve.setDefaultCommand(new CommandSwerve(
             robot,
-            () -> -main.getLeftY(),
+            () -> main.getLeftY(),
             () -> main.getLeftX(),
             () -> main.getRightX(),
             () -> !main.getAButtonPressed()));
