@@ -97,10 +97,10 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(Rotation2d.fromDegrees(gyro.getAngle()),
-                                               new SwerveModulePosition[]{frontLeft.getModulePos(), 
-                                                                          frontRight.getModulePos(), 
-                                                                          backLeft.getModulePos(), 
-                                                                          backRight.getModulePos()});
+        new SwerveModulePosition[]{frontLeft.getModulePos(), 
+        frontRight.getModulePos(), 
+        backLeft.getModulePos(), 
+        backRight.getModulePos()});
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putNumber("FL: Angle", frontLeft.getAbsoluteEncoderRad());
         SmartDashboard.putNumber("FR: Angle", frontRight.getAbsoluteEncoderRad());

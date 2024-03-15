@@ -83,8 +83,8 @@ public final class Constants {
     public static final boolean kFrontRightDriveEncoderReversed = false;
     public static final boolean kBackRightDriveEncoderReversed = false;
     
-    public static final int kFrontLeftDriveAbsoluteEncoderPort = 9;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 10; //Dead. Built in encoders
+    public static final int kFrontLeftDriveAbsoluteEncoderPort = 10; //Dead. Built in encoders
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 9;
     public static final int kBackLeftDriveAbsoluteEncoderPort = 11;
     public static final int kBackRightDriveAbsoluteEncoderPort = 12; //Dead. Built in encoders
 
@@ -93,8 +93,8 @@ public final class Constants {
     public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
-    public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -0.481201171875;
-    public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0; //Neo encoder
+    public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0; //Neo encoder
+    public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.249755859375; 
     public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0.33740234375;
     public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0; //Neo encoder
 
