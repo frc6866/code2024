@@ -63,7 +63,7 @@ public class Controls {
         } else if (Math.abs(alt.getRightY()) > 0.05) { //Shoot
             altRightY = Math.abs(alt.getRightY());
             robot.s_flywheel.moveFlywheel(altRightY);
-            if (alt.getRightTriggerAxis() > 0){
+            if (alt.getLeftTriggerAxis() > 0){
                 robot.s_flywheel.moveTransfer(Flywheel.PEAK_SPEED_TRANSFER);
             } else {
                 robot.s_flywheel.stopTransfer();
