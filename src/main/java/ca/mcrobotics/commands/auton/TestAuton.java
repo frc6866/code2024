@@ -12,7 +12,11 @@ public class TestAuton extends SequentialCommandGroup {
     public TestAuton(Robot robot) {
         addCommands(
             new ParallelRaceGroup(new CommandDrive(robot, -0.2, -0.2), new WaitCommand(2)),
-            new CommandDrive(robot, 0, 0)
+            // Go backwards for 2 second
+            new CommandDrive(robot, 0, 0),
+            // Speed 0
+            new CommandAmp(robot, true)
+            // Turn on amp
         );
     }
 }

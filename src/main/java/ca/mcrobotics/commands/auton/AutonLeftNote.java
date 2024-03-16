@@ -10,9 +10,13 @@ import edu.wpi.first.wpilibj2.command.WaitCommand; //We do time based cus I'm to
 
 public class AutonLeftNote extends SequentialCommandGroup {
     public AutonLeftNote(Robot robot) {
+        // Left note
         addCommands(
             new ParallelRaceGroup(new CommandDrive(robot, 2, 2), new WaitCommand(1)),
-            new CommandDrive(robot, 0, 0)
+            // Go forward for 1 second
+            new CommandDrive(robot, 0, 0),
+            // Speed 0
+            new CommandAmp(robot, true)
         );  
     }
 }
