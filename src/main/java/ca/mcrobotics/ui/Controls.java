@@ -44,7 +44,6 @@ public class Controls {
             robot.speed = (robot.speed == Speed.FAST) ? Speed.SLOW : Speed.FAST;
         }
 
-
         //Driving
         if (Math.abs(mainLeftX) >= 0.95 && Math.abs(mainLeftY) <= 0.5) { //Swerve
             angA = mainLeftX*90;
@@ -54,8 +53,8 @@ public class Controls {
         } else {
             if (Math.abs(mainRightX) >= 0.1) { //Turn
                 angA = 45;
-                angB = -45;
-                leftDrive = mainRightX;
+                angB = 45;
+                leftDrive = -mainRightX;
                 rightDrive = mainRightX;
             } else { //Normal Drive
                 angA = mainLeftX*90;
