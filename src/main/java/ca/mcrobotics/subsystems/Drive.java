@@ -42,9 +42,6 @@ public class Drive extends SubsystemBase {
         blTurn = new CANSparkMax(Constants.Drive.kBackLeftTurningMotorPort, MotorType.kBrushless);
         brTurn = new CANSparkMax(Constants.Drive.kBackRightTurningMotorPort, MotorType.kBrushless);
 
-        flDrive.follow(frDrive);
-        blDrive.follow(brDrive);
-
         flEncoder = flTurn.getEncoder();
         frEncoder = frTurn.getEncoder();
         blEncoder = blTurn.getEncoder();
@@ -52,6 +49,7 @@ public class Drive extends SubsystemBase {
         
         flDrive.setInverted(true);
         blDrive.setInverted(true);
+
 
         frTurn.setInverted(true);
         blTurn.setInverted(true);
@@ -77,7 +75,7 @@ public class Drive extends SubsystemBase {
         }
 
         if (Math.abs((-frEncoder.getPosition()-wheelAngB)) > 0.005) {
-            frTurn.set((-frEncoder.getPosition()-wheelAngB)*0.3);
+            frTurn.set((-frEncoder.getPosition()-wheelAngB)*0.25);
         } else if ((-frEncoder.getPosition()-wheelAngB) > -0.001 && (-frEncoder.getPosition()-wheelAngB) < 0.001) {
             frTurn.set(0);
         }

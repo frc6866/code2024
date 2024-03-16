@@ -64,6 +64,8 @@ public class Controls {
                 rightDrive = mainLeftY+mainRightX;
             }
         }
+
+        // Adjust for robot speed
         leftDrive *= robot.speed;
         rightDrive *= robot.speed;
         
