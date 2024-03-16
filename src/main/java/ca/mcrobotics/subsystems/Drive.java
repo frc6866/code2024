@@ -64,12 +64,37 @@ public class Drive extends SubsystemBase {
     }
 
     public void setWheelAng() { //automatically puts wheels back into straight position (0 degrees)
-        if (Math.abs((-flEncoder.getPosition()+wheelAng)) > 0.005) {
-            flTurn.set((-flEncoder.getPosition()+wheelAng)*0.3);
+        if (Math.abs(flEncoder.getPosition()) > 21.6) {
+            flEncoder.setPosition(flEncoder.getPosition()%21.6);
+        }
+        if (Math.abs(frEncoder.getPosition()) > 21.6) {
+            frEncoder.setPosition(frEncoder.getPosition()%21.6);
+        }        
+        if (Math.abs(blEncoder.getPosition()) > 21.6) {
+            blEncoder.setPosition(blEncoder.getPosition()%21.6);
+        }        
+        if (Math.abs(brEncoder.getPosition()) > 21.6) {
+            brEncoder.setPosition(brEncoder.getPosition()%21.6);
+        }
+
+        //if (wheelAng > 0 && flEncoder.getPosition() > 0) {
+        if (Math.abs((-flEncoder.getPosition()+wheelAng)) > 0.005) { //Allow for 360 rotation?
+            if (wheelAng-flEncoder.getPosition()*9/150 > (360-wheelAng)+flEncoder.getPosition()*9/150) {
+                flTurn.set((-flEncoder.getPosition()+wheelAng)*0.3);
+            } else {
+                flTurn.set((flEncoder.getPosition()+wheelAng)*0.3);
+            }
         } else if ((-flEncoder.getPosition()+wheelAng) > -0.001 && (-flEncoder.getPosition()+wheelAng) < 0.001) {
             flTurn.set(0);
         }
-        
+        /*} else if (wheelAng < 0 && flEncoder.getPosition() < 0) { 
+            if (Math.abs((-flEncoder.getPosition()+wheelAng)) > 0.005) {
+                flTurn.set((flEncoder.getPosition()+wheelAng)*0.3);
+            } else if ((-flEncoder.getPosition()+wheelAng) > -0.001 && (-flEncoder.getPosition()+wheelAng) < 0.001) {
+                flTurn.set(0);
+            }
+        }*/
+
         if (Math.abs((-frEncoder.getPosition()-wheelAng)) > 0.005) {
             frTurn.set((-frEncoder.getPosition()-wheelAng)*0.3);
         } else if ((-frEncoder.getPosition()-wheelAng) > -0.001 && (-frEncoder.getPosition()-wheelAng) < 0.001) {

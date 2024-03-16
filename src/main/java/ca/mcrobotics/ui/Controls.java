@@ -34,16 +34,30 @@ public class Controls {
     }
 
     public void teleopPeriodic() {
+        // Multiplier for robot speed
         mainLeftX = main.getLeftX();
         mainLeftY = main.getLeftY();
         mainRightX = main.getRightX();
 
-        ang = mainLeftX*90;
+        //Turning
+        if(mainLeftX > 0.15) { //Right
+            if (mainLeftY > 0) { //Up right
+                ang = mainLeftX*90; //0-90
+            } else { //Down right
+                ang = 180-mainLeftX*90; //90-180
+            }
+        } else if (mainLeftX < 0.15) { //Left
+            if (mainLeftY > 0) { //Up left
+                ang = mainLeftX*90+180; //180-270
+            } else { //Down left
+                ang = 360+mainLeftX*90; //270-360
+            }
+        }
 
         //Driving
-        if (Math.abs(mainLeftX) >= 0.95 && Math.abs(mainLeftY) <= 0.5) { //Fix for swerve
-                leftDrive = 1-mainLeftY;
-                rightDrive = 1-mainLeftY;
+        if (Math.abs(mainLeftX) >= 0.95 &&  Math.abs(mainLeftY) <= 0.5) { //Fix for swerve
+            leftDrive = 1-mainLeftX;
+            rightDrive = 1-mainLeftX;
         } else {
             leftDrive = mainLeftX-mainRightX;
             rightDrive = mainLeftX+mainRightX;
@@ -52,7 +66,6 @@ public class Controls {
         robot.s_swerve.drive(leftDrive,
                              rightDrive,
                              ang);
-
         
         robot.s_swerve.drive(leftDrive,
                              rightDrive,
@@ -73,7 +86,7 @@ public class Controls {
         } else if (Math.abs(alt.getRightY()) > 0.05) { //Shoot
             altRightY = Math.abs(alt.getRightY());
             robot.s_flywheel.moveFlywheel(altRightY);
-            if (alt.getRightTriggerAxis() > 0){
+            if (alt.getLeftTriggerAxis() > 0){
                 robot.s_flywheel.moveTransfer(Flywheel.PEAK_SPEED_TRANSFER);
             } else {
                 robot.s_flywheel.stopTransfer();
