@@ -27,6 +27,7 @@ public class Controls {
 
     double leftDrive;
     double rightDrive;
+    double ang;
 
     public Controls(Robot robot) {
         this.robot = robot;
@@ -38,17 +39,33 @@ public class Controls {
         mainLeftY = main.getLeftY() * robot.speed;
         mainRightX = main.getRightX() * robot.speed;
 
-        leftDrive = mainLeftX-mainRightX;
-        rightDrive = mainLeftX+mainRightX;
+        //Turning
+        if(mainLeftX > 0.15) { //Right
+            if (mainLeftY > 0) { //Up right
+                ang = mainLeftX*90;
+            } else { //Down right
+                ang = mainLeftX*90+90;
+            }
+        } else if (mainLeftX < 0.15) { //Left
+            if (mainLeftY > 0) { //Up left
+                ang = -mainLeftX*90;
+            } else { //Down left
+                ang = -mainLeftX*90-90;
+            }
+        }
 
-        if (Math.abs(mainLeftX) >= 0.9 &&  Math.abs(mainLeftY) <= 0.1) { //Fix for swerve
-            leftDrive = 1-mainLeftY;
-            rightDrive = mainLeftY-1;
+        //Driving
+        if (Math.abs(mainLeftX) >= 0.95 &&  Math.abs(mainLeftY) <= 0.5) { //Fix for swerve
+            leftDrive = 1-mainLeftX;
+            rightDrive = 1-mainLeftX;
+        } else {
+            leftDrive = mainLeftX-mainRightX;
+            rightDrive = mainLeftX+mainRightX;
         }
 
         robot.s_swerve.drive(leftDrive,
                              rightDrive,
-                             mainRightX*90);
+                             ang);
 
         
         if (main.getYButton()) {
