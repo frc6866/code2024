@@ -7,6 +7,7 @@ import ca.mcrobotics.Constants;
 import ca.mcrobotics.Constants.Amp;
 import ca.mcrobotics.Constants.Flywheel;
 import ca.mcrobotics.Constants.OIConstants;
+import ca.mcrobotics.Constants.Speed;
 import ca.mcrobotics.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -39,6 +40,10 @@ public class Controls {
         mainLeftY = main.getLeftY();
         mainRightX = main.getRightX();
 
+        if (main.getYButton()) {
+            robot.speed = (robot.speed == Speed.FAST) ? Speed.SLOW : Speed.FAST;
+        }
+
 
         //Driving
         if (Math.abs(mainLeftX) >= 0.95 && Math.abs(mainLeftY) <= 0.5) { //Swerve
@@ -59,7 +64,8 @@ public class Controls {
                 rightDrive = mainLeftY+mainRightX;
             }
         }
-
+        leftDrive *= robot.speed;
+        rightDrive *= robot.speed;
         
 
         robot.s_swerve.drive(leftDrive,

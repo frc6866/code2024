@@ -165,4 +165,10 @@ public final class Constants {
 
     public static final double kDeadband = 0.05;
   }
+
+  public static final class Speed {
+    public static final double FAST = 1;
+    public static final double MEDIUM = 0.6;
+    public static final double SLOW = 0.4;
+  }
 }
