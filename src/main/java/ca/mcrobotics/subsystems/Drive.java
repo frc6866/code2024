@@ -55,9 +55,8 @@ public class Drive extends SubsystemBase {
         wheelAng = 0;
     }
 
-    public void drive(double left, double right, double wheelAng) {
-        this.wheelAng = wheelAng*9/150;
-        setWheelAng();
+    public void drive(double left, double right, double ang) {
+        wheelAng = ang*9/150;
         flDrive.set(left);
         frDrive.set(right);
         blDrive.set(left);
@@ -100,11 +99,6 @@ public class Drive extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("1", flEncoder.getPosition());
-        SmartDashboard.putNumber("2", frEncoder.getPosition());
-        SmartDashboard.putNumber("3", blEncoder.getPosition());
-        SmartDashboard.putNumber("4", brEncoder.getPosition());
-
         setWheelAng();
     }
 }

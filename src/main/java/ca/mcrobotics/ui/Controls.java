@@ -10,6 +10,7 @@ import ca.mcrobotics.Constants.OIConstants;
 import ca.mcrobotics.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Controls {
     Robot robot;
@@ -20,12 +21,13 @@ public class Controls {
     double altRightY;
     double wheelAng;
 
-    double mainLeftX;
-    double mainLeftY;
-    double mainRightX;
+    double mainLeftX = 0;
+    double mainLeftY = 0;
+    double mainRightX = 0;
 
     double leftDrive;
     double rightDrive;
+    double ang;
 
     public Controls(Robot robot) {
         this.robot = robot;
@@ -36,17 +38,25 @@ public class Controls {
         mainLeftY = main.getLeftY();
         mainRightX = main.getRightX();
 
-        leftDrive = mainLeftX-mainRightX;
-        rightDrive = mainLeftX+mainRightX;
+        ang = mainLeftX*90;
 
-        if (Math.abs(mainLeftX) >= 0.9 &&  Math.abs(mainLeftY) <= 0.1) { //Fix for swerve
-            leftDrive = 1-mainLeftY;
-            rightDrive = mainLeftY-1;
+        //Driving
+        if (Math.abs(mainLeftX) >= 0.95 && Math.abs(mainLeftY) <= 0.5) { //Fix for swerve
+                leftDrive = 1-mainLeftY;
+                rightDrive = 1-mainLeftY;
+        } else {
+            leftDrive = mainLeftX-mainRightX;
+            rightDrive = mainLeftX+mainRightX;
         }
 
         robot.s_swerve.drive(leftDrive,
                              rightDrive,
-                             mainRightX*90);
+                             ang);
+
+        
+        robot.s_swerve.drive(leftDrive,
+                             rightDrive,
+                             mainLeftX*90);
 
         if (alt.getYButton()) {
             robot.s_amp.startAmp(Amp.MAX_SPEED_OUT);

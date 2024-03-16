@@ -16,6 +16,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import ca.mcrobotics.ui.*;
+import ca.mcrobotics.commands.auton.AutonCenter;
+import ca.mcrobotics.commands.auton.AutonLeftNote;
+import ca.mcrobotics.commands.auton.AutonRightNote;
+import ca.mcrobotics.commands.auton.NoAuton;
+import ca.mcrobotics.commands.auton.TestAuton;
 import ca.mcrobotics.subsystems.*;
 
 /**
@@ -50,6 +55,17 @@ public class Robot extends TimedRobot {
     s_flywheel = new Flywheel();
     s_amp = new Amp();
     controls = new Controls(this);
+
+    autonManager = new AutonManager();
+    autonManager.register(new NoAuton(this));
+    autonManager.register(new AutonLeftNote(this));
+    autonManager.register(new AutonCenter(this));
+    autonManager.register(new AutonRightNote(this));
+    autonManager.register(new TestAuton(this));
+    autonManager.register(new NoAuton(this));
+
+    autonChooser = autonManager.createChooser(Constants.Common.DEFAULT_AUTON);
+    Shuffleboard.getTab("Robot").add("Auton Chooser", autonChooser).withSize(3, 1);
   }
 
   /**
