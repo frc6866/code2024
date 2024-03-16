@@ -12,7 +12,9 @@ public class AutonRightNote extends SequentialCommandGroup {
     public AutonRightNote(Robot robot) {
         addCommands(
             new ParallelRaceGroup(new CommandDrive(robot, 2, 2), new WaitCommand(1)),
+            // Go forward for 1 second
             new CommandDrive(robot, 0, 0)
+            // Speed 0
         );
     }
 }
