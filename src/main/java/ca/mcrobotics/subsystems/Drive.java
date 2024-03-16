@@ -55,7 +55,6 @@ public class Drive extends SubsystemBase {
 
         frTurn.setInverted(true);
         blTurn.setInverted(true);
-        brTurn.setInverted(true);
 
         wheelAngA = 0;
         wheelAngB = 0;
@@ -77,7 +76,6 @@ public class Drive extends SubsystemBase {
             flTurn.set(0);
         }
 
-
         if (Math.abs((-frEncoder.getPosition()-wheelAngB)) > 0.005) {
             frTurn.set((-frEncoder.getPosition()-wheelAngB)*0.3);
         } else if ((-frEncoder.getPosition()-wheelAngB) > -0.001 && (-frEncoder.getPosition()-wheelAngB) < 0.001) {
@@ -90,9 +88,9 @@ public class Drive extends SubsystemBase {
             blTurn.set(0);
         }
 
-        if (Math.abs((-brEncoder.getPosition()+wheelAngA)) > 0.001) {
-            brTurn.set((-brEncoder.getPosition()+wheelAngA)*0.3);
-        } else if ((-brEncoder.getPosition()+wheelAngA) > -0.001 && (-brEncoder.getPosition()+wheelAngA) < 0.001) {
+        if (Math.abs((-brEncoder.getPosition()-wheelAngA)) > 0.001) {
+            brTurn.set((-brEncoder.getPosition()-wheelAngA)*0.3);
+        } else if ((-brEncoder.getPosition()-wheelAngA) > -0.001 && (-brEncoder.getPosition()-wheelAngA) < 0.001) {
             brTurn.set(0);
         }
 
