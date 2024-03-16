@@ -42,17 +42,20 @@ public class Drive extends SubsystemBase {
         blTurn = new CANSparkMax(Constants.Drive.kBackLeftTurningMotorPort, MotorType.kBrushless);
         brTurn = new CANSparkMax(Constants.Drive.kBackRightTurningMotorPort, MotorType.kBrushless);
 
+        flDrive.follow(frDrive);
+        blDrive.follow(brDrive);
+
         flEncoder = flTurn.getEncoder();
         frEncoder = frTurn.getEncoder();
         blEncoder = blTurn.getEncoder();
         brEncoder = brTurn.getEncoder();
-
+        
         flDrive.setInverted(true);
         blDrive.setInverted(true);
 
-        flTurn.setInverted(true);
         frTurn.setInverted(true);
         blTurn.setInverted(true);
+        brTurn.setInverted(true);
 
         wheelAngA = 0;
         wheelAngB = 0;
@@ -81,15 +84,15 @@ public class Drive extends SubsystemBase {
             frTurn.set(0);
         }
 
-        if (Math.abs((-blEncoder.getPosition()-wheelAngA)) > 0.005) {
-            blTurn.set((-blEncoder.getPosition()-wheelAngA)*0.3);
-        } else if ((-blEncoder.getPosition()-wheelAngA) > -0.001 && (-blEncoder.getPosition()-wheelAngA) < 0.001) {
+        if (Math.abs((-blEncoder.getPosition()-wheelAngB)) > 0.005) {
+            blTurn.set((-blEncoder.getPosition()-wheelAngB)*0.3);
+        } else if ((-blEncoder.getPosition()-wheelAngB) > -0.001 && (-blEncoder.getPosition()-wheelAngB) < 0.001) {
             blTurn.set(0);
         }
 
-        if (Math.abs((-brEncoder.getPosition()+wheelAngB)) > 0.001) {
-            brTurn.set((-brEncoder.getPosition()+wheelAngB)*0.3);
-        } else if ((-brEncoder.getPosition()+wheelAngB) > -0.001 && (-brEncoder.getPosition()+wheelAngB) < 0.001) {
+        if (Math.abs((-brEncoder.getPosition()+wheelAngA)) > 0.001) {
+            brTurn.set((-brEncoder.getPosition()+wheelAngA)*0.3);
+        } else if ((-brEncoder.getPosition()+wheelAngA) > -0.001 && (-brEncoder.getPosition()+wheelAngA) < 0.001) {
             brTurn.set(0);
         }
 

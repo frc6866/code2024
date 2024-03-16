@@ -48,13 +48,8 @@ public class Controls {
             rightDrive = mainLeftY-1;
         } else {
             if (Math.abs(mainRightX) >= 0.1) { //Turn
-                if (mainRightX > 0) {
-                    angA = 45;
-                    angB = -45;
-                } else {
-                    angA = -45;
-                    angB = 45;
-                }
+                angA = 45;
+                //angB = -45;
                 leftDrive = mainRightX;
                 rightDrive = mainRightX;
             } else { //Normal Drive
