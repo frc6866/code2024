@@ -28,7 +28,8 @@ public class Drive extends SubsystemBase {
     private CANEncoder blEncoder;
     private CANEncoder brEncoder;
 
-    private double wheelAng;
+    private double wheelAngA;
+    private double wheelAngB;
 
     public Drive() {
         flDrive = new CANSparkMax(Constants.Drive.kFrontLeftDriveMotorPort, MotorType.kBrushless);
@@ -49,14 +50,17 @@ public class Drive extends SubsystemBase {
         flDrive.setInverted(true);
         blDrive.setInverted(true);
 
+        flTurn.setInverted(true);
         frTurn.setInverted(true);
         blTurn.setInverted(true);
 
-        wheelAng = 0;
+        wheelAngA = 0;
+        wheelAngB = 0;
     }
 
-    public void drive(double left, double right, double ang) {
-        wheelAng = ang*9/150;
+    public void drive(double left, double right, double anga, double angb) {
+        wheelAngA = anga*9/150;
+        wheelAngB = angb*9/150;
         flDrive.set(left);
         frDrive.set(right);
         blDrive.set(left);
@@ -64,52 +68,28 @@ public class Drive extends SubsystemBase {
     }
 
     public void setWheelAng() { //automatically puts wheels back into straight position (0 degrees)
-        if (Math.abs(flEncoder.getPosition()) > 21.6) {
-            flEncoder.setPosition(flEncoder.getPosition()%21.6);
-        }
-        if (Math.abs(frEncoder.getPosition()) > 21.6) {
-            frEncoder.setPosition(frEncoder.getPosition()%21.6);
-        }        
-        if (Math.abs(blEncoder.getPosition()) > 21.6) {
-            blEncoder.setPosition(blEncoder.getPosition()%21.6);
-        }        
-        if (Math.abs(brEncoder.getPosition()) > 21.6) {
-            brEncoder.setPosition(brEncoder.getPosition()%21.6);
-        }
-
-        //if (wheelAng > 0 && flEncoder.getPosition() > 0) {
-        if (Math.abs((-flEncoder.getPosition()+wheelAng)) > 0.005) { //Allow for 360 rotation?
-            if (wheelAng-flEncoder.getPosition()*9/150 > (360-wheelAng)+flEncoder.getPosition()*9/150) {
-                flTurn.set((-flEncoder.getPosition()+wheelAng)*0.3);
-            } else {
-                flTurn.set((flEncoder.getPosition()+wheelAng)*0.3);
-            }
-        } else if ((-flEncoder.getPosition()+wheelAng) > -0.001 && (-flEncoder.getPosition()+wheelAng) < 0.001) {
+        if (Math.abs((-flEncoder.getPosition()-wheelAngA)) > 0.005) {
+            flTurn.set((-flEncoder.getPosition()-wheelAngA)*0.3);
+        } else if ((-flEncoder.getPosition()-wheelAngA) > -0.001 && (-flEncoder.getPosition()-wheelAngA) < 0.001) {
             flTurn.set(0);
         }
-        /*} else if (wheelAng < 0 && flEncoder.getPosition() < 0) { 
-            if (Math.abs((-flEncoder.getPosition()+wheelAng)) > 0.005) {
-                flTurn.set((flEncoder.getPosition()+wheelAng)*0.3);
-            } else if ((-flEncoder.getPosition()+wheelAng) > -0.001 && (-flEncoder.getPosition()+wheelAng) < 0.001) {
-                flTurn.set(0);
-            }
-        }*/
 
-        if (Math.abs((-frEncoder.getPosition()-wheelAng)) > 0.005) {
-            frTurn.set((-frEncoder.getPosition()-wheelAng)*0.3);
-        } else if ((-frEncoder.getPosition()-wheelAng) > -0.001 && (-frEncoder.getPosition()-wheelAng) < 0.001) {
+
+        if (Math.abs((-frEncoder.getPosition()-wheelAngB)) > 0.005) {
+            frTurn.set((-frEncoder.getPosition()-wheelAngB)*0.3);
+        } else if ((-frEncoder.getPosition()-wheelAngB) > -0.001 && (-frEncoder.getPosition()-wheelAngB) < 0.001) {
             frTurn.set(0);
         }
 
-        if (Math.abs((-blEncoder.getPosition()-wheelAng)) > 0.005) {
-            blTurn.set((-blEncoder.getPosition()-wheelAng)*0.3);
-        } else if ((-blEncoder.getPosition()-wheelAng) > -0.001 && (-blEncoder.getPosition()-wheelAng) < 0.001) {
+        if (Math.abs((-blEncoder.getPosition()-wheelAngA)) > 0.005) {
+            blTurn.set((-blEncoder.getPosition()-wheelAngA)*0.3);
+        } else if ((-blEncoder.getPosition()-wheelAngA) > -0.001 && (-blEncoder.getPosition()-wheelAngA) < 0.001) {
             blTurn.set(0);
         }
 
-        if (Math.abs((-brEncoder.getPosition()+wheelAng)) > 0.001) {
-            brTurn.set((-brEncoder.getPosition()+wheelAng)*0.3);
-        } else if ((-brEncoder.getPosition()+wheelAng) > -0.001 && (-brEncoder.getPosition()+wheelAng) < 0.001) {
+        if (Math.abs((-brEncoder.getPosition()+wheelAngB)) > 0.001) {
+            brTurn.set((-brEncoder.getPosition()+wheelAngB)*0.3);
+        } else if ((-brEncoder.getPosition()+wheelAngB) > -0.001 && (-brEncoder.getPosition()+wheelAngB) < 0.001) {
             brTurn.set(0);
         }
 

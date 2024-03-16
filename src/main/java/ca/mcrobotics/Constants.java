@@ -145,8 +145,8 @@ public final class Constants {
   public static class Amp {
   // CAN IDs for motors
     public static final int AMP_CAN = 13;
-    public static final double MAX_SPEED_IN = 0.15;
-    public static final double MAX_SPEED_OUT = 0.65;
+    public static final double MAX_SPEED_IN = 0.2;
+    public static final double MAX_SPEED_OUT = 0.45;
   }
 
   public static class Climb {
