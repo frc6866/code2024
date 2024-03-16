@@ -15,8 +15,8 @@ public class TestAuton extends SequentialCommandGroup {
             // Go backwards for 2 second
             new CommandDrive(robot, 0, 0),
             // Speed 0
-            new CommandAmp(robot, true)
-            // Turn on amp
+            new CommandAmp(robot, true)    
+
         );
     }
 }

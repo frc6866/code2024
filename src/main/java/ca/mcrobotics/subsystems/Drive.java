@@ -58,8 +58,8 @@ public class Drive extends SubsystemBase {
     }
 
     public void drive(double left, double right, double anga, double angb) {
-        wheelAngA = anga*9/150;
-        wheelAngB = angb*9/150;
+        wheelAngA = anga*11/150;
+        wheelAngB = angb*11/150;
         flDrive.set(left);
         frDrive.set(right);
         blDrive.set(left);
@@ -104,3 +104,4 @@ public class Drive extends SubsystemBase {
         setWheelAng();
     }
 }
+ 
