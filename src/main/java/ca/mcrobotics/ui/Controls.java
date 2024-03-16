@@ -72,6 +72,11 @@ public class Controls {
             robot.speed = (robot.speed == Speed.FAST) ? Speed.SLOW : Speed.FAST;
         }
 
+        
+        if (main.getYButton()) {
+            robot.speed = (robot.speed == Speed.FAST) ? Speed.SLOW : Speed.FAST;
+        }
+
         if (alt.getYButton()) {
             robot.s_amp.startAmp(Amp.MAX_SPEED_OUT);
         } else if (alt.getAButton()) {
