@@ -116,6 +116,11 @@ public final class Constants {
     public static final double kPTurning = 0.5;
     public static final double kITurning = 0;
     public static final double kDTurning = 0;
+
+    public static double flPos = 0;
+    public static double frPos = 0;
+    public static double blPos = 0;
+    public static double brPos = 0;
   }
 
   public static final class AutoConstants {

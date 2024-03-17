@@ -46,14 +46,14 @@ public class Controls {
 
         //Driving
         if (Math.abs(mainLeftX) >= 0.95 && Math.abs(mainLeftY) <= 0.5) { //Swerve
-            angA = mainLeftX*90;
-            angB = mainLeftX*90;
-            leftDrive = mainLeftY-1;
-            rightDrive = mainLeftY-1;
+            angA = mainLeftX * 90;
+            angB = mainLeftX * 90;
+            leftDrive = mainLeftY - 1;
+            rightDrive = mainLeftY - 1;
         } else {
             if (Math.abs(mainRightX) >= 0.1) { //Turn
                 angA = 45;
-                angB = 45;
+                angB = -45;
                 leftDrive = -mainRightX;
                 rightDrive = mainRightX;
             } else { //Normal Drive
@@ -82,6 +82,7 @@ public class Controls {
             robot.s_amp.stopAmp();
         }
 
+        /*
         //Flywheel
         if (alt.getXButton()) { //Intake
             robot.s_flywheel.moveFlywheel(-Flywheel.PEAK_SPEED_FLYWHEEL * 0.3);
@@ -96,6 +97,6 @@ public class Controls {
             }
         } else {
             robot.s_flywheel.stopAll();
-        }
+        }*/
     }
 }
