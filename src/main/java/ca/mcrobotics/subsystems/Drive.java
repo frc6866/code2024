@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import ca.mcrobotics.Constants;
 import ca.mcrobotics.Constants.*;
+import ca.mcrobotics.ui.Controls;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -30,6 +31,7 @@ public class Drive extends SubsystemBase {
 
     private double wheelAngA;
     private double wheelAngB;
+    private boolean swerveOn;
 
     public Drive() {
         flDrive = new CANSparkMax(Constants.Drive.kFrontLeftDriveMotorPort, MotorType.kBrushless);
@@ -60,10 +62,26 @@ public class Drive extends SubsystemBase {
     public void drive(double left, double right, double anga, double angb) {
         wheelAngA = anga*11/150;
         wheelAngB = angb*11/150;
-        flDrive.set(left);
-        frDrive.set(right);
-        blDrive.set(left);
-        brDrive.set(right);
+        if (Controls.swerveIsOn) { //TUrn wheel
+            swerveOn = true;
+            if (((-flEncoder.getPosition()-wheelAngA) > -0.01 && (-flEncoder.getPosition()-wheelAngA) < 0.01) ||
+                ((-frEncoder.getPosition()-wheelAngB) > -0.01 && (-frEncoder.getPosition()-wheelAngB) < 0.01) ||
+                ((-blEncoder.getPosition()-wheelAngB) > -0.01 && (-blEncoder.getPosition()-wheelAngB) < 0.01) ||
+                ((-brEncoder.getPosition()-wheelAngA) > -0.01 && (-brEncoder.getPosition()-wheelAngA) < 0.01) && swerveOn) {
+                flDrive.set(left);
+                frDrive.set(right);
+                blDrive.set(left);
+                brDrive.set(right);
+            } 
+        } else { //Normal wheel
+            Controls.swerveIsOn = false;
+            swerveOn = false;
+            flDrive.set(left);
+            frDrive.set(right);
+            blDrive.set(left);
+            brDrive.set(right);
+
+        }
     }
 
     public void setWheelAng() { //automatically puts wheels back into straight position (0 degrees)
@@ -74,7 +92,7 @@ public class Drive extends SubsystemBase {
         }
 
         if (Math.abs((-frEncoder.getPosition()+wheelAngB)) > 0.005) {
-            frTurn.set((-frEncoder.getPosition()+wheelAngB)*0.25);
+            frTurn.set((-frEncoder.getPosition()+wheelAngB)*0.3);
         } else if ((-frEncoder.getPosition()+wheelAngB) > -0.001 && (-frEncoder.getPosition()+wheelAngB) < 0.001) {
             frTurn.set(0);
         }
@@ -103,5 +121,16 @@ public class Drive extends SubsystemBase {
     public void periodic() {
         setWheelAng();
     }
+
+    public double[] getPos() {
+        return new double[]{flEncoder.getPosition(), frEncoder.getPosition(), blEncoder.getPosition(), brEncoder.getPosition()};
+    }
+
+    public void setPos(double fl, double fr, double bl, double br) {
+        flEncoder.setPosition(fl);
+        frEncoder.setPosition(fr);
+        blEncoder.setPosition(bl);
+        brEncoder.setPosition(br);
+    }
 }
- 
+  

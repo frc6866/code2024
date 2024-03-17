@@ -28,6 +28,11 @@ public class CommandDrive extends CommandBase {
     @Override
     public void execute() {
         robot.s_swerve.drive(speedL, speedR, 0, 0);
+        double pos[] = robot.s_swerve.getPos();
+        Constants.Drive.flAng = pos[0];
+        Constants.Drive.frAng = pos[1];
+        Constants.Drive.blAng = pos[2];
+        Constants.Drive.brAng = pos[3];    
     }
 
     @Override

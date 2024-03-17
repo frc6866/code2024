@@ -31,7 +31,10 @@ public class Controls {
     double angA;
     double angB;
 
+    public static boolean swerveIsOn;
+
     public Controls(Robot robot) {
+        swerveIsOn = false;
         this.robot = robot;
     }
 
@@ -45,17 +48,19 @@ public class Controls {
         }
 
         //Driving
-        if (Math.abs(mainLeftX) >= 0.95 && Math.abs(mainLeftY) <= 0.5) { //Swerve
+        if (Math.abs(mainLeftX) >= .99 && Math.abs(mainLeftY) <= 0.2) { //Swerve
+            swerveIsOn = true;
             angA = mainLeftX*90;
             angB = mainLeftX*90;
             leftDrive = mainLeftY-1;
             rightDrive = mainLeftY-1;
         } else {
+            swerveIsOn = false;
             if (Math.abs(mainRightX) >= 0.1) { //Turn
-                angA = 45;
+                angA = -45;
                 angB = 45;
-                leftDrive = -mainRightX;
-                rightDrive = mainRightX;
+                leftDrive = mainRightX;
+                rightDrive = -mainRightX;
             } else { //Normal Drive
                 angA = mainLeftX*90;
                 angB = mainLeftX*90;
@@ -63,6 +68,12 @@ public class Controls {
                 rightDrive = mainLeftY+mainRightX;
             }
         }
+
+        SmartDashboard.setDefaultNumber("1", robot.s_swerve.getPos()[0]);
+        SmartDashboard.setDefaultNumber("2", robot.s_swerve.getPos()[1]);
+        SmartDashboard.setDefaultNumber("3", robot.s_swerve.getPos()[2]);
+        SmartDashboard.setDefaultNumber("4", robot.s_swerve.getPos()[3]);
+
 
         // Adjust for robot speed
         leftDrive *= robot.speed;

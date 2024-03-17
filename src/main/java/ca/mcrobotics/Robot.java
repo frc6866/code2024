@@ -124,6 +124,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    s_swerve.setPos(Constants.Drive.flAng, Constants.Drive.frAng, Constants.Drive.blAng, Constants.Drive.brAng);
   }
 
   /** This function is called periodically during operator control. */
