@@ -60,9 +60,12 @@ public class Drive extends SubsystemBase {
     }
 
     public void drive(double left, double right, double anga, double angb) {
-        wheelAngA = anga*13/150;
-        wheelAngB = angb*13/150;
-        if (Controls.swerveIsOn) { //TUrn wheel
+        // 11/150 does not work as the angle
+        // 15/150 is untested, probably too much - aditya
+        // maybe try 14/150 for future testing/rnd
+        wheelAngA = anga * 13 / 150;
+        wheelAngB = angb * 13 / 150;
+        if (Controls.swerveIsOn) { //Turn wheel
             swerveOn = true;
             if (((-flEncoder.getPosition()-wheelAngA) > -0.01 && (-flEncoder.getPosition()-wheelAngA) < 0.01) ||
                 ((-frEncoder.getPosition()-wheelAngB) > -0.01 && (-frEncoder.getPosition()-wheelAngB) < 0.01) ||
