@@ -113,6 +113,12 @@ public class Drive extends SubsystemBase {
         }
     }
 
+
+// defenceTurn needs to be done before humber competion
+// angle to do: 20 degrees 
+// wheelAngA - wheelAngB 
+
+
     public void stop() {
         flDrive.set(0);
         frDrive.set(0);
