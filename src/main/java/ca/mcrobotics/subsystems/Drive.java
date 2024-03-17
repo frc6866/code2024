@@ -73,9 +73,9 @@ public class Drive extends SubsystemBase {
             flTurn.set(0);
         }
 
-        if (Math.abs((-frEncoder.getPosition()+wheelAngB)) > 0.005) {
-            frTurn.set((-frEncoder.getPosition()+wheelAngB)*0.6);
-        } else if ((-frEncoder.getPosition()+wheelAngB) > -0.001 && (-frEncoder.getPosition()+wheelAngB) < 0.001) {
+        if (Math.abs((-frEncoder.getPosition()-wheelAngB)) > 0.005) {
+            frTurn.set((-frEncoder.getPosition()-wheelAngB)*0.6);
+        } else if ((-frEncoder.getPosition()-wheelAngB) > -0.001 && (-frEncoder.getPosition()-wheelAngB) < 0.001) {
             frTurn.set(0);
         }
 
