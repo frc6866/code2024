@@ -1,10 +1,13 @@
 package ca.mcrobotics.commands;
 
 import java.util.function.Supplier;
+
+import edu.wpi.first.hal.simulation.ConstBufferCallback;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import ca.mcrobotics.Constants;
 import ca.mcrobotics.Robot;
 import ca.mcrobotics.Constants;
 import ca.mcrobotics.Constants.*;
@@ -19,6 +22,12 @@ public class CommandDrive extends CommandBase {
         this.robot = robot;
         this.speedL = speedL;
         this.speedR = speedR;
+        execute();
+        double ang[] = robot.s_swerve.getPos();
+        Constants.Drive.flPos = ang[0];
+        Constants.Drive.frPos = ang[1];
+        Constants.Drive.blPos = ang[2];
+        Constants.Drive.brPos = ang[3];
     }
 
     @Override
@@ -29,10 +38,10 @@ public class CommandDrive extends CommandBase {
     public void execute() {
         robot.s_swerve.drive(speedL, speedR, 0, 0);
         double pos[] = robot.s_swerve.getPos();
-        Constants.Drive.flAng = pos[0];
-        Constants.Drive.frAng = pos[1];
-        Constants.Drive.blAng = pos[2];
-        Constants.Drive.brAng = pos[3];    
+        Constants.Drive.flPos = pos[0];
+        Constants.Drive.frPos = pos[1];
+        Constants.Drive.blPos = pos[2];
+        Constants.Drive.brPos = pos[3];    
     }
 
     @Override

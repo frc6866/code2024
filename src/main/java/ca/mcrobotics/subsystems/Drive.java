@@ -86,25 +86,25 @@ public class Drive extends SubsystemBase {
 
     public void setWheelAng() { //automatically puts wheels back into straight position (0 degrees)
         if (Math.abs((-flEncoder.getPosition()-wheelAngA)) > 0.005) {
-            flTurn.set((-flEncoder.getPosition()-wheelAngA)*0.3);
+            flTurn.set((-flEncoder.getPosition()-wheelAngA)*0.6);
         } else if ((-flEncoder.getPosition()-wheelAngA) > -0.001 && (-flEncoder.getPosition()-wheelAngA) < 0.001) {
             flTurn.set(0);
         }
 
-        if (Math.abs((-frEncoder.getPosition()+wheelAngB)) > 0.005) {
-            frTurn.set((-frEncoder.getPosition()+wheelAngB)*0.3);
-        } else if ((-frEncoder.getPosition()+wheelAngB) > -0.001 && (-frEncoder.getPosition()+wheelAngB) < 0.001) {
+        if (Math.abs((-frEncoder.getPosition()-wheelAngB)) > 0.005) {
+            frTurn.set((-frEncoder.getPosition()-wheelAngB)*0.6);
+        } else if ((-frEncoder.getPosition()-wheelAngB) > -0.001 && (-frEncoder.getPosition()-wheelAngB) < 0.001) {
             frTurn.set(0);
         }
 
         if (Math.abs((-blEncoder.getPosition()-wheelAngB)) > 0.005) {
-            blTurn.set((-blEncoder.getPosition()-wheelAngB)*0.3);
+            blTurn.set((-blEncoder.getPosition()-wheelAngB)*0.6);
         } else if ((-blEncoder.getPosition()-wheelAngB) > -0.001 && (-blEncoder.getPosition()-wheelAngB) < 0.001) {
             blTurn.set(0);
         }
 
-        if (Math.abs((-brEncoder.getPosition()-wheelAngA)) > 0.001) {
-            brTurn.set((-brEncoder.getPosition()-wheelAngA)*0.3);
+        if (Math.abs((-brEncoder.getPosition()-wheelAngA)) > 0.005) {
+            brTurn.set((-brEncoder.getPosition()-wheelAngA)*0.6);
         } else if ((-brEncoder.getPosition()-wheelAngA) > -0.001 && (-brEncoder.getPosition()-wheelAngA) < 0.001) {
             brTurn.set(0);
         }
@@ -122,15 +122,15 @@ public class Drive extends SubsystemBase {
         setWheelAng();
     }
 
-    public double[] getPos() {
-        return new double[]{flEncoder.getPosition(), frEncoder.getPosition(), blEncoder.getPosition(), brEncoder.getPosition()};
-    }
-
     public void setPos(double fl, double fr, double bl, double br) {
         flEncoder.setPosition(fl);
         frEncoder.setPosition(fr);
         blEncoder.setPosition(bl);
         brEncoder.setPosition(br);
+    }
+
+    public double[] getPos() {
+        return new double[]{flEncoder.getPosition(), frEncoder.getPosition(), blEncoder.getPosition(), brEncoder.getPosition()};
     }
 }
   

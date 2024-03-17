@@ -117,10 +117,10 @@ public final class Constants {
     public static final double kITurning = 0;
     public static final double kDTurning = 0;
 
-    public static double flAng = 0;
-    public static double frAng = 0;
-    public static double blAng = 0;
-    public static double brAng = 0;
+    public static double flPos = 0;
+    public static double frPos = 0;
+    public static double blPos = 0;
+    public static double brPos = 0;
   }
 
   public static final class AutoConstants {
