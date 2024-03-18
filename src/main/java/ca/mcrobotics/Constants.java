@@ -141,7 +141,7 @@ public final class Constants {
   public static class Flywheel {
     // CAN IDs for motors
     public static final int TRANSFER_CAN = 14;
-    public static final double PEAK_SPEED_TRANSFER = 0.3;
+    public static final double PEAK_SPEED_TRANSFER = 0.7;
     public static final int FLYWHEEL1_CAN = 15;
     public static final int FLYWHEEL2_CAN = 16;
     public static final double PEAK_SPEED_FLYWHEEL = 1;
