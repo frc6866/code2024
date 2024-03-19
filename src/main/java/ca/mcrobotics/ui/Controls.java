@@ -92,7 +92,6 @@ public class Controls {
             robot.s_amp.stopAmp();
         }
 
-        /*
         //Flywheel
         if (alt.getXButton()) { //Intake
             robot.s_flywheel.moveFlywheel(-Flywheel.PEAK_SPEED_FLYWHEEL * 0.3);
@@ -107,6 +106,6 @@ public class Controls {
             }
         } else {
             robot.s_flywheel.stopAll();
-        }*/
+        }
     }
 }
