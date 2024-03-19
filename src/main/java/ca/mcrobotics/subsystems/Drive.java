@@ -59,6 +59,15 @@ public class Drive extends SubsystemBase {
         wheelAngB = 0;
     }
 
+    /**
+     * 
+     * Drives all 4 motors
+     * 
+     * @param left - Moves the left drive motors
+     * @param right - Move the right drive motors
+     * @param anga - Angle of fl and br turn motors
+     * @param angb - Angle of fr and bl turn motors
+     */
     public void drive(double left, double right, double anga, double angb) {
         // 11/150 does not work as the angle
         // 15/150 is untested, probably too much - aditya
@@ -67,6 +76,7 @@ public class Drive extends SubsystemBase {
         wheelAngB = angb * 13 / 150;
         if (Controls.swerveIsOn) { //Turn wheel
             swerveOn = true;
+            //Only moves once the wheel has reached θ degrees
             if (((-flEncoder.getPosition()-wheelAngA) > -0.01 && (-flEncoder.getPosition()-wheelAngA) < 0.01) ||
                 ((-frEncoder.getPosition()-wheelAngB) > -0.01 && (-frEncoder.getPosition()-wheelAngB) < 0.01) ||
                 ((-blEncoder.getPosition()-wheelAngB) > -0.01 && (-blEncoder.getPosition()-wheelAngB) < 0.01) ||
@@ -86,28 +96,37 @@ public class Drive extends SubsystemBase {
 
         }
     }
-
+    /**
+     * Aligns wheels to θ degrees
+     * 
+     * Gear ratio of turn motor is 7/150. But in code we changed to 13/150 to account for undershooting.
+     * Checks to see if the motor is not within 0.005 rotations and if so moves the motor back into position
+     * - The greater the diffrence, the more power there is (As position becomes greater the motor moves more)
+     * Once the position is between 0.001 and -0.001 the motor stops as the desired position is reached.
+     * 
+     * If there is an angle offset we subtract the desired angle from the position and take this into account when aliging wheels.
+     */
     public void setWheelAng() { //automatically puts wheels back into straight position (0 degrees)
         if (Math.abs((-flEncoder.getPosition()-wheelAngA)) > 0.005) {
-            flTurn.set((-flEncoder.getPosition()-wheelAngA)*0.3);
+            flTurn.set((-flEncoder.getPosition()-wheelAngA)*0.5);
         } else if ((-flEncoder.getPosition()-wheelAngA) > -0.001 && (-flEncoder.getPosition()-wheelAngA) < 0.001) {
             flTurn.set(0);
         }
 
         if (Math.abs((-frEncoder.getPosition()-wheelAngB)) > 0.005) {
-            frTurn.set((-frEncoder.getPosition()-wheelAngB)*0.3);
+            frTurn.set((-frEncoder.getPosition()-wheelAngB)*0.5);
         } else if ((-frEncoder.getPosition()-wheelAngB) > -0.001 && (-frEncoder.getPosition()-wheelAngB) < 0.001) {
             frTurn.set(0);
         }
 
         if (Math.abs((-blEncoder.getPosition()-wheelAngB)) > 0.005) {
-            blTurn.set((-blEncoder.getPosition()-wheelAngB)*0.3);
+            blTurn.set((-blEncoder.getPosition()-wheelAngB)*0.5);
         } else if ((-blEncoder.getPosition()-wheelAngB) > -0.001 && (-blEncoder.getPosition()-wheelAngB) < 0.001) {
             blTurn.set(0);
         }
 
         if (Math.abs((-brEncoder.getPosition()-wheelAngA)) > 0.005) {
-            brTurn.set((-brEncoder.getPosition()-wheelAngA)*0.3);
+            brTurn.set((-brEncoder.getPosition()-wheelAngA)*0.5);
         } else if ((-brEncoder.getPosition()-wheelAngA) > -0.001 && (-brEncoder.getPosition()-wheelAngA) < 0.001) {
             brTurn.set(0);
         }

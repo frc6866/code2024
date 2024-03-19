@@ -11,6 +11,7 @@ public class CommandAmp extends CommandBase {
 	public CommandAmp(Robot robot, boolean stat) {
 		this.robot = robot;
 		this.stat = stat;
+		execute();
 	}
 
 	// Called when the command is initially scheduled.
