@@ -47,42 +47,47 @@ public class Controls {
             robot.speed = (robot.speed == Speed.FAST) ? Speed.SLOW : Speed.FAST;
         }
 
-        //Driving
-        if (Math.abs(mainLeftX) >= 0.95 && Math.abs(mainLeftY) <= 0.5) { //Swerve
-            angA = mainLeftX * 90;
-            angB = mainLeftX * 90;
-            leftDrive = mainLeftY - 1;
-            rightDrive = mainLeftY - 1;
+        if (main.getBButton()) {
+            //x configuration
+            robot.s_swerve.drive(0, 0, -22.5, 22.5);
         } else {
-            swerveIsOn = false;
-            if (Math.abs(mainRightX) >= 0.1) { //Turn
-                angA = 45;
-                angB = -45;
-                leftDrive = -mainRightX;
-                rightDrive = mainRightX;
-            } else { //Normal Drive
-                angA = mainLeftX*90;
-                angB = mainLeftX*90;
-                leftDrive = mainLeftY-mainRightX;
-                rightDrive = mainLeftY+mainRightX;
+            //Driving
+            if (Math.abs(mainLeftX) >= 0.95 && Math.abs(mainLeftY) <= 0.5) { //Swerve
+                angA = mainLeftX * 90;
+                angB = mainLeftX * 90;
+                leftDrive = mainLeftY - 1;
+                rightDrive = mainLeftY - 1;
+            } else {
+                swerveIsOn = false;
+                if (Math.abs(mainRightX) >= 0.1) { //Turn
+                    angA = 45;
+                    angB = -45;
+                    leftDrive = -mainRightX;
+                    rightDrive = mainRightX;
+                } else { //Normal Drive
+                    angA = mainLeftX*90;
+                    angB = mainLeftX*90;
+                    leftDrive = mainLeftY-mainRightX;
+                    rightDrive = mainLeftY+mainRightX;
+                }
             }
+
+            SmartDashboard.setDefaultNumber("1", robot.s_swerve.getPos()[0]);
+            SmartDashboard.setDefaultNumber("2", robot.s_swerve.getPos()[1]);
+            SmartDashboard.setDefaultNumber("3", robot.s_swerve.getPos()[2]);
+            SmartDashboard.setDefaultNumber("4", robot.s_swerve.getPos()[3]);
+
+
+            // Adjust for robot speed
+            leftDrive *= robot.speed;
+            rightDrive *= robot.speed;
+            
+
+            robot.s_swerve.drive(leftDrive,
+                                rightDrive,
+                                angA,
+                                angB);
         }
-
-        SmartDashboard.setDefaultNumber("1", robot.s_swerve.getPos()[0]);
-        SmartDashboard.setDefaultNumber("2", robot.s_swerve.getPos()[1]);
-        SmartDashboard.setDefaultNumber("3", robot.s_swerve.getPos()[2]);
-        SmartDashboard.setDefaultNumber("4", robot.s_swerve.getPos()[3]);
-
-
-        // Adjust for robot speed
-        leftDrive *= robot.speed;
-        rightDrive *= robot.speed;
-        
-
-        robot.s_swerve.drive(leftDrive,
-                             rightDrive,
-                             angA,
-                             angB);
 
         if (alt.getYButton()) {
             robot.s_amp.startAmp(Amp.MAX_SPEED_OUT);
